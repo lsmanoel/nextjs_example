@@ -8,17 +8,10 @@
     "next/core-web-vitals",
     "eslint:recommended",
     "prettier",
-    "plugin:cypress/recommended",
     "plugin:react/recommended"
   ],
-  "globals": {
-    "cy": true
-  },
-  "env": {
-    "cypress/globals": true
-  },
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint", "cypress"],
+  "plugins": ["@typescript-eslint"],
   "parserOptions": {
     "project": ["./tsconfig.eslint.json"]
   },
