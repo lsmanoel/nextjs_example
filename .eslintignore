@@ -1,0 +1,25 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+*.scss
+*.json
+
+cypress/plugins/*
+cypress/support/*
+cypress/fixtures/*
+# cypress/*
+
+jest.config.js
+jest-fetch-mock.setup.js
+next.config.js
+
+*.disabled
