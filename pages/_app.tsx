@@ -1,8 +1,18 @@
-import '../styles/globals.scss'
-import type { AppProps } from 'next/app'
+import type { AppProps } from "next/app";
+import { useState } from "react";
+import Layout from "components/layout/Layout";
+
+import "styles/globals.scss";
 
 function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  const [layout, setLayout] = useState<boolean>(true);
+  return layout ? (
+    <Layout>
+      <Component {...pageProps} />
+    </Layout>
+  ) : (
+    <Component {...pageProps} />
+  );
 }
 
-export default App
+export default App;
