@@ -34,6 +34,7 @@ body {
   --color-primary-dark-3: #{darken($color-primary, 24)};
   --color-primary-text: white;
   --color-secondary: rgb(255, 182, 87);
+  --color-select: rgb(238, 96, 96);
 
   --color-info: #{lighten($color-primary, 10)};
   --color-disable: #{lighten($color-primary, 50)};
