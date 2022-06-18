@@ -77,10 +77,16 @@
       transition: 200ms ease;
       transition-property: opacity, width, padding;
     }
-    // &:hover,
-    // &:focus {
-    //   transform: scale(1.05);
-    // }
+    &:hover {
+      svg {
+        transform: scale(1.2);
+      }
+    }
+    &:active {
+      svg {
+        transform: scale(1.5);
+      }
+    }
     &.selected {
       opacity: 1;
       &::after {

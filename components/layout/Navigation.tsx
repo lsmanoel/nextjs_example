@@ -11,16 +11,13 @@ import {
   faBars,
   faBoxArchive,
   faLayerGroup,
+  faCode,
 } from "@fortawesome/free-solid-svg-icons";
 import LogoNavigation from "public/logo_navigation.svg";
 
 const links = [
   { href: "/", value: "Tela Inicial", icon: faHouse },
-  { href: "/users", value: "Usuários", icon: faUsers },
-  { href: "/organizations", value: "Organização", icon: faFolderMinus },
-  { href: "/storages", value: "Armazenamento", icon: faBoxArchive },
-  { href: "/groups", value: "Grupo", icon: faLayerGroup },
-  { href: "/devices", value: "Dispositivos", icon: faServer },
+  { href: "/page", value: "Page", icon: faCode },
 ];
 
 interface Props {
