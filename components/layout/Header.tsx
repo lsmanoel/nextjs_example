@@ -6,13 +6,23 @@ import styles from "styles/components/Layout.module.scss";
 
 interface Props {
   title: string;
+  buttonFaBarsEnable: boolean;
   onClickFaBars: () => void;
 }
 
-export default function Header({ title, onClickFaBars }: Props): ReactElement {
+export default function Header({
+  title,
+  buttonFaBarsEnable,
+  onClickFaBars,
+}: Props): ReactElement {
   return (
-    <header className={styles.header}>
+    <header
+      className={`${styles.header} ${
+        buttonFaBarsEnable ? styles.buttonFaBarsEnable : ""
+      }`}
+    >
       <button
+        className={`${buttonFaBarsEnable ? styles.buttonFaBarsEnable : ""}`}
         aria-label="Esconder menu lateral"
         title="Esconder menu lateral"
         onClick={() => onClickFaBars()}

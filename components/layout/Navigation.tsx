@@ -3,17 +3,7 @@ import Link from "next/link";
 import styles from "../../styles/components/Layout.module.scss";
 import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHouse,
-  faUsers,
-  faFolderMinus,
-  faServer,
-  faBars,
-  faBoxArchive,
-  faLayerGroup,
-  faCode,
-} from "@fortawesome/free-solid-svg-icons";
-import LogoNavigation from "public/logo_navigation.svg";
+import { faHouse, faCode } from "@fortawesome/free-solid-svg-icons";
 
 const links = [
   { href: "/", value: "Tela Inicial", icon: faHouse },

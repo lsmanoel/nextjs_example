@@ -33,7 +33,11 @@ export default function Layout({ children }: Props): ReactElement {
       </Head>
 
       <div className={styles.content}>
-        <Header title={title} onClickFaBars={() => setHidden(!hidden)}></Header>
+        <Header
+          title={title}
+          buttonFaBarsEnable={!hidden}
+          onClickFaBars={() => setHidden(!hidden)}
+        ></Header>
         <div className={styles.body}>
           <Navigation hidden={hidden}></Navigation>
           <main className={styles.main}>{children}</main>

@@ -26,7 +26,7 @@ body {
 
 // #region Variables
 body {
-  $color-primary: #4e1bf5;
+  $color-primary: #292823;
 
   --color-primary: #{$color-primary};
   --color-primary-dark-1: #{darken($color-primary, 8)};
@@ -34,7 +34,7 @@ body {
   --color-primary-dark-3: #{darken($color-primary, 24)};
   --color-primary-text: white;
   --color-secondary: rgb(255, 182, 87);
-  --color-select: rgb(238, 96, 96);
+  --color-select: #5effc9;
 
   --color-info: #{lighten($color-primary, 10)};
   --color-disable: #{lighten($color-primary, 50)};
@@ -52,7 +52,7 @@ body {
   --color-text: #171717;
   --theme-transition-time: 200ms;
 
-  $color-background-primary: #f0f2fa;
+  $color-background-primary: #363636;
   --color-background-primary: #{$color-background-primary};
   --color-background-primary-dark-1: #{darken($color-background-primary, 8)};
   --color-background-primary-dark-2: #{darken($color-background-primary, 16)};
