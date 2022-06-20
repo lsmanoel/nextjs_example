@@ -34,14 +34,14 @@ body {
   --color-primary-dark-3: #{darken($color-primary, 24)};
   --color-primary-text: white;
   --color-secondary: rgb(255, 182, 87);
-  --color-select: #5effc9;
+  --color-select: #15f2fd;
+  --color-success: #2ff924;
+  --color-error: #eb212e;
+  --color-warn: #ffb648;
 
   --color-info: #{lighten($color-primary, 10)};
   --color-disable: #{lighten($color-primary, 50)};
   --color-overlay-button: #{rgba($color-white, 0.5)};
-  --color-success: #4bde97;
-  --color-warn: #ffb648;
-  --color-danger: #f13f3f;
   --color-title: #000000;
   --color-body: #767676;
   --color-label: #b9b9b9;
