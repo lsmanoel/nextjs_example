@@ -28,6 +28,11 @@ export default function Layout({ children }: Props): ReactElement {
   const [hiddenMsg, setHiddenMsg] = useState(true);
   const router = useRouter();
   const title = routeTitles[router.pathname] || "";
+
+  const onSubmitMsg = (): void => {
+    setHiddenMsg(true);
+  };
+
   return (
     <>
       <Head>
@@ -42,7 +47,7 @@ export default function Layout({ children }: Props): ReactElement {
           buttonMsgEnable={!hiddenMsg}
           onClickMsg={() => setHiddenMsg(!hiddenMsg)}
         ></Header>
-        <Messenger hidden={hiddenMsg}></Messenger>
+        <Messenger hidden={hiddenMsg} onSubmit={onSubmitMsg}></Messenger>
         <div className={styles.body}>
           <Navigation hidden={hiddenNav}></Navigation>
           <main className={styles.main}>{children}</main>

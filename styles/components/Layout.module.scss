@@ -191,12 +191,15 @@ header.header {
       cursor: pointer;
       color: var(--primary-text-color);
       background-color: var(--background-primary-color);
-      outline-color: var(--outline-color);
       border-radius: 5px;
       height: 40px;
       margin: 5px 5px 0px 5px;
       opacity: 1;
       box-shadow: 4px 4px 4px 0 var(--shadow-color);
+      border-style: outset;
+      border-color: var(--outline-color);
+      border-width: 2px;
+      outline: none;
       svg {
         margin-left: 10px;
       }
@@ -215,6 +218,7 @@ header.header {
           transform: scale(1.5);
         }
         box-shadow: none;
+        border-style: inset;
       }
       &.buttonEnable {
         svg,
@@ -241,7 +245,8 @@ header.header {
     font-size: 1.2em;
     opacity: 0.8;
     z-index: 3;
-    outline-color: var(--outline-color);
+    border-color: var(--outline-color);
+    border-style: outset;
     svg {
       transition: color 0.5s ease;
       width: 1em;
@@ -256,6 +261,8 @@ header.header {
       svg {
         transform: scale(1.5);
       }
+      box-shadow: none;
+      border-style: inset;
     }
     &.buttonEnable {
       svg {

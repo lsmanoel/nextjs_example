@@ -9,27 +9,17 @@
   left: 185px;
   padding: 50px;
   padding-top: 75px;
-  transition: all 0.5s ease;
+  top: 0px;
   z-index: 1;
   box-shadow: 4px 4px 4px 0 var(--shadow-color);
+  transition: top 2.5s ease;
+  -webkit-transition: all 0.5s ease;
   &.hidden {
-    height: 0px;
-    padding-top: 0px;
-    .buttons > :not(button) {
-      display: none;
-    }
-    > label,
-    input,
-    textarea {
-      display: none;
-      max-width: 0;
-      padding: 0;
-    }
+    top: -800px;
   }
   label {
     color: var(--select-color);
     text-shadow: 0 0 2px var(--select-color);
-    transition: color text-shadow 0.5s ease;
   }
   input,
   textarea {
@@ -39,8 +29,8 @@
     border: none;
     transition: color 0.5s ease;
   }
-  > textarea:focus,
-  > input:focus {
+  textarea:focus,
+  input:focus {
     color: var(--select-color);
     background-color: var(--background-primary-color);
     border-style: solid;
@@ -49,6 +39,7 @@
     box-shadow: 0 0 2px var(--select-color);
     border-radius: 5px;
     transition: color 0.5s ease;
+    transition: background-color 0.5s ease;
     -webkit-transition: background-color 0.5s ease;
   }
   .buttons {
@@ -62,7 +53,7 @@
       align-items: center;
       cursor: pointer;
       color: var(--primary-text-color);
-      background-color: var(--primary-color);
+      background-color: var(--background-primary-color);
       border-radius: 4px;
       height: 40px;
       width: 100px;
@@ -72,6 +63,7 @@
       outline-style: outset;
       outline-color: var(--outline-color);
       outline-width: 2px;
+      border: none;
       svg {
         margin-left: 10px;
       }

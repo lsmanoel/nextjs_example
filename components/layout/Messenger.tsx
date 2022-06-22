@@ -1,21 +1,29 @@
-import { ReactElement, useState } from "react";
+import React, { ReactElement, useState } from "react";
 import styles from "styles/components/Messenger.module.scss";
 import { useRouter } from "next/router";
 
 interface Props {
   hidden: boolean;
+  onSubmit: () => void;
 }
 
-export default function Messenger({ hidden }: Props): ReactElement {
-  const router = useRouter();
+export default function Messenger({ hidden, onSubmit }: Props): ReactElement {
   const [emailCC, setEmailCC] = useState<string>("");
   const [messenge, setMessenge] = useState<string>("");
 
+  const preventDefaultOnSubmit: React.FormEventHandler = async function (e) {
+    e.preventDefault();
+    onSubmit();
+  };
+
   return (
-    <form className={`${styles.Messenger} ${hidden ? styles.hidden : ""}`}>
+    <form
+      className={`${styles.Messenger} ${hidden ? styles.hidden : ""}`}
+      onSubmit={preventDefaultOnSubmit}
+    >
       <label>Como cópia para:</label>
       <input
-        type={"text"}
+        type={"email"}
         placeholder={"Ensira o email..."}
         name={"EmailCC"}
         value={emailCC}
@@ -42,7 +50,7 @@ export default function Messenger({ hidden }: Props): ReactElement {
           type={"reset"}
           placeholder={"Ensira o email..."}
           name={"EmailCC"}
-          value={"Cancel"}
+          value={"Cancelar"}
           onInput={(e) => {
             setEmailCC((e.target as HTMLInputElement).value);
           }}
