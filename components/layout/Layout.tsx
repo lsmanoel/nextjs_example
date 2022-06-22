@@ -6,6 +6,7 @@ import Navigation from "./Navigation";
 import { useRouter } from "next/router";
 
 import styles from "styles/components/Layout.module.scss";
+import Messenger from "./Messenger";
 
 const routeTitles: Record<string, string> = {
   "/": "Home",
@@ -23,7 +24,8 @@ interface Props {
 }
 
 export default function Layout({ children }: Props): ReactElement {
-  const [hidden, setHidden] = useState(false);
+  const [hiddenNav, setHiddenNav] = useState(true);
+  const [hiddenMsg, setHiddenMsg] = useState(true);
   const router = useRouter();
   const title = routeTitles[router.pathname] || "";
   return (
@@ -35,11 +37,14 @@ export default function Layout({ children }: Props): ReactElement {
       <div className={styles.content}>
         <Header
           title={title}
-          buttonFaBarsEnable={!hidden}
-          onClickFaBars={() => setHidden(!hidden)}
+          buttonFaBarsEnable={!hiddenNav}
+          onClickFaBars={() => setHiddenNav(!hiddenNav)}
+          buttonMsgEnable={!hiddenMsg}
+          onClickMsg={() => setHiddenMsg(!hiddenMsg)}
         ></Header>
+        <Messenger hidden={hiddenMsg}></Messenger>
         <div className={styles.body}>
-          <Navigation hidden={hidden}></Navigation>
+          <Navigation hidden={hiddenNav}></Navigation>
           <main className={styles.main}>{children}</main>
         </div>
         <Footer></Footer>

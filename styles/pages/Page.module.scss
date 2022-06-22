@@ -13,8 +13,8 @@
   width: 100%;
   height: 100%;
   h1 {
-    color: var(--color-primary-text);
-    color: var(--color-select);
-    text-shadow: 0 0 3px var(--color-select);
+    color: var(--primary-text-color);
+    color: var(--select-color);
+    text-shadow: 0 0 3px var(--select-color);
   }
 }
