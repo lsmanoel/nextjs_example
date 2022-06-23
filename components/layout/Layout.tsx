@@ -1,22 +1,16 @@
 import React, { ReactElement, useState } from "react";
+import { useRouter } from "next/router";
+import { statusColor } from "lib/statusColor";
 import Head from "next/head";
 import Footer from "./Footer";
 import Header from "./Header";
 import Navigation from "./Navigation";
-import { useRouter } from "next/router";
+import Messenger from "./Messenger";
 
 import styles from "styles/components/Layout.module.scss";
-import Messenger from "./Messenger";
 
 const routeTitles: Record<string, string> = {
   "/": "Home",
-  "/login": "Login",
-  "/login/admin": "Login",
-  "/devices": "Devices",
-  "/storages": "Storages",
-  "/users": "Usuários",
-  "/organizations": "Organizations",
-  "/groups": "Grupos",
 };
 
 interface Props {
@@ -26,11 +20,18 @@ interface Props {
 export default function Layout({ children }: Props): ReactElement {
   const [hiddenNav, setHiddenNav] = useState(true);
   const [hiddenMsg, setHiddenMsg] = useState(true);
+  const [submitMsgStatus, setSubmitMsgStatus] = useState<statusColor>();
   const router = useRouter();
   const title = routeTitles[router.pathname] || "";
 
-  const onSubmitMsg = (): void => {
+  const onSubmitMsg = (status: statusColor): void => {
+    setHiddenMsg(!!status);
+    setSubmitMsgStatus(status);
+  };
+
+  const onClearMsg = (): void => {
     setHiddenMsg(true);
+    setSubmitMsgStatus(undefined);
   };
 
   return (
@@ -46,8 +47,13 @@ export default function Layout({ children }: Props): ReactElement {
           onClickFaBars={() => setHiddenNav(!hiddenNav)}
           buttonMsgEnable={!hiddenMsg}
           onClickMsg={() => setHiddenMsg(!hiddenMsg)}
+          submitMsgStatus={submitMsgStatus}
         ></Header>
-        <Messenger hidden={hiddenMsg} onSubmit={onSubmitMsg}></Messenger>
+        <Messenger
+          hidden={hiddenMsg}
+          onSubmit={onSubmitMsg}
+          onClear={onClearMsg}
+        ></Messenger>
         <div className={styles.body}>
           <Navigation hidden={hiddenNav}></Navigation>
           <main className={styles.main}>{children}</main>

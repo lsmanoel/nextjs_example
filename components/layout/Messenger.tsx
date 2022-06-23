@@ -1,34 +1,86 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useEffect, useRef, useState } from "react";
+import emailjs, { EmailJSResponseStatus } from "@emailjs/browser";
+import { statusColor } from "lib/statusColor";
+
 import styles from "styles/components/Messenger.module.scss";
-import { useRouter } from "next/router";
 
 interface Props {
   hidden: boolean;
-  onSubmit: () => void;
+  onSubmit?: (status: statusColor) => void;
+  onClear?: () => void;
 }
 
-export default function Messenger({ hidden, onSubmit }: Props): ReactElement {
-  const [emailCC, setEmailCC] = useState<string>("");
-  const [messenge, setMessenge] = useState<string>("");
+export default function Messenger({
+  hidden,
+  onSubmit,
+  onClear,
+}: Props): ReactElement {
+  const form = useRef<HTMLFormElement>(null);
+  const lastHiddenStatus = useRef<boolean>(hidden);
+  const [status, setStatus] = useState<statusColor>();
+  const [email, setEmail] = useState<string>("");
+  const [message, setMessage] = useState<string>("");
 
-  const preventDefaultOnSubmit: React.FormEventHandler = async function (e) {
-    e.preventDefault();
-    onSubmit();
+  const sendEmail = () => {
+    emailjs
+      .sendForm(
+        "service_rgeei13",
+        "template_g83fcce",
+        form.current || "",
+        "RtEjChEbXknPBGlky"
+      )
+      .then(
+        (_) => {
+          setStatus("success");
+          onSubmit && onSubmit("success");
+        },
+        (error) => {
+          console.log(error.text);
+          setStatus("error");
+          onSubmit && onSubmit("error");
+        }
+      );
   };
+
+  const clearForm = () => {
+    setEmail("");
+    setMessage("");
+    onClear && onClear();
+  };
+
+  const submit: React.FormEventHandler = async function (e) {
+    e.preventDefault();
+    sendEmail();
+  };
+
+  useEffect(() => {
+    if (lastHiddenStatus.current === true && hidden === false) {
+      setStatus(undefined);
+      onSubmit && onSubmit(undefined);
+    }
+    lastHiddenStatus.current = hidden;
+  }, [hidden, onSubmit]);
 
   return (
     <form
-      className={`${styles.Messenger} ${hidden ? styles.hidden : ""}`}
-      onSubmit={preventDefaultOnSubmit}
+      ref={form}
+      className={`
+      ${styles.Messenger}
+      ${hidden ? styles.hidden : ""}
+      ${status === "success" ? styles.success : ""}
+      ${status === "warn" ? styles.warn : ""}
+      ${status === "error" ? styles.error : ""}
+      `}
+      onSubmit={submit}
     >
-      <label>Como cópia para:</label>
+      <label>Seu email:</label>
       <input
         type={"email"}
-        placeholder={"Ensira o email..."}
-        name={"EmailCC"}
-        value={emailCC}
+        placeholder={"Ensira o seu email..."}
+        name={"email"}
+        value={email}
         onInput={(e) => {
-          setEmailCC((e.target as HTMLInputElement).value);
+          setEmail((e.target as HTMLInputElement).value);
         }}
         autoComplete="off"
         required
@@ -36,26 +88,17 @@ export default function Messenger({ hidden, onSubmit }: Props): ReactElement {
       <label>Mensagem:</label>
       <textarea
         placeholder={"Ensira sua mensagem..."}
-        name={"Messenge"}
-        value={messenge}
+        name={"message"}
+        value={message}
         rows={40}
         onInput={(e) => {
-          setMessenge((e.target as HTMLInputElement).value);
+          setMessage((e.target as HTMLInputElement).value);
         }}
         required
       />
       <div className={styles.buttons}>
         <input type={"submit"} value={"Enviar"} />
-        <input
-          type={"reset"}
-          placeholder={"Ensira o email..."}
-          name={"EmailCC"}
-          value={"Cancelar"}
-          onInput={(e) => {
-            setEmailCC((e.target as HTMLInputElement).value);
-          }}
-          required
-        />
+        <input type={"button"} value={"Limpar"} onClick={() => clearForm()} />
       </div>
     </form>
   );

@@ -2,6 +2,7 @@ import React, { ReactElement, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import { statusColor } from "lib/statusColor";
 
 import styles from "styles/components/Layout.module.scss";
 
@@ -10,22 +11,19 @@ interface Props {
   buttonFaBarsEnable: boolean;
   onClickFaBars: () => void;
   buttonMsgEnable: boolean;
+  submitMsgStatus?: statusColor;
   onClickMsg: () => void;
 }
 
 export default function Header({
-  title,
   buttonFaBarsEnable,
   onClickFaBars,
   buttonMsgEnable,
+  submitMsgStatus,
   onClickMsg,
 }: Props): ReactElement {
   return (
-    <header
-      className={`${styles.header} ${
-        buttonFaBarsEnable ? styles.buttonFaBarsEnable : ""
-      }`}
-    >
+    <header className={`${styles.header}`}>
       <button
         className={`${buttonFaBarsEnable ? styles.buttonEnable : ""}`}
         aria-label="Esconder menu lateral"
@@ -36,7 +34,10 @@ export default function Header({
       </button>
       <div>
         <button
-          className={`${buttonMsgEnable ? styles.buttonEnable : ""}`}
+          className={`${buttonMsgEnable ? styles.buttonEnable : ""}
+                    ${submitMsgStatus === "success" ? styles.success : ""}
+                    ${submitMsgStatus === "warn" ? styles.warn : ""}
+                    ${submitMsgStatus === "error" ? styles.error : ""}`}
           aria-label="Esconder Messenger"
           title="Esconder Messenger"
           onClick={() => onClickMsg()}

@@ -76,18 +76,18 @@
     }
     &.selected {
       opacity: 1;
-      color: var(--select-color);
-      text-shadow: 0 0 2px var(--select-color);
+      color: var(--selected-color);
+      text-shadow: 0 0 2px var(--selected-color);
       transition: color text-shadow 0.5s ease;
       cursor: default;
       svg {
         transition: shadow 0.5s ease;
         transform: scale(1.2);
-        filter: drop-shadow(0 0 2px var(--select-color));
+        filter: drop-shadow(0 0 2px var(--selected-color));
       }
       &:hover {
         &::after {
-          background-color: var(--select-color);
+          background-color: var(--selected-color);
           transition: background-color 1s ease;
           border-radius: 2px;
           content: "";
@@ -103,8 +103,8 @@
       }
       &::after {
         transition: background-color box-shadow translate 0.5s ease;
-        background-color: var(--select-color);
-        box-shadow: 0 0 4px var(--select-color);
+        background-color: var(--selected-color);
+        box-shadow: 0 0 4px var(--selected-color);
         border-radius: 2px;
         content: "";
         height: 60%;
@@ -224,8 +224,32 @@ header.header {
         svg,
         span {
           transition: color 1s ease;
-          filter: drop-shadow(0 0 2px var(--select-color));
-          color: var(--select-color);
+          filter: drop-shadow(0 0 2px var(--selected-color));
+          color: var(--selected-color);
+        }
+      }
+      &.success {
+        svg,
+        span {
+          transition: color 1s ease;
+          filter: drop-shadow(0 0 2px var(--success-color));
+          color: var(--success-color);
+        }
+      }
+      &.warn {
+        svg,
+        span {
+          transition: color 1s ease;
+          filter: drop-shadow(0 0 2px var(--warn-color));
+          color: var(--warn-color);
+        }
+      }
+      &.error {
+        svg,
+        span {
+          transition: color 1s ease;
+          filter: drop-shadow(0 0 2px var(--error-color));
+          color: var(--error-color);
         }
       }
     }
@@ -267,8 +291,8 @@ header.header {
     &.buttonEnable {
       svg {
         transition: color 1s ease;
-        filter: drop-shadow(0 0 2px var(--select-color));
-        color: var(--select-color);
+        filter: drop-shadow(0 0 2px var(--selected-color));
+        color: var(--selected-color);
       }
     }
   }
