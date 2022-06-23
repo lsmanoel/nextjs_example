@@ -22,12 +22,15 @@ export default function Messenger({
   const [message, setMessage] = useState<string>("");
 
   const sendEmail = () => {
+    console.log(process.env.SERVICE_ID);
+    console.log(process.env.TEMPLATE_ID);
+    console.log(process.env.PUBLIC_KEY);
     emailjs
       .sendForm(
-        "service_rgeei13",
-        "template_g83fcce",
+        process.env.SERVICE_ID || "",
+        process.env.TEMPLATE_ID || "",
         form.current || "",
-        "RtEjChEbXknPBGlky"
+        process.env.PUBLIC_KEY || ""
       )
       .then(
         (_) => {
