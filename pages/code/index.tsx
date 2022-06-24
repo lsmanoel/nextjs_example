@@ -1,19 +1,19 @@
 import { NextPage } from "next";
 import styles from "styles/pages/Page.module.scss";
 import Head from "next/head";
-const Home: NextPage = () => {
+const Code: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Lucas | Head</title>
+        <title>Lucas | Code</title>
       </Head>
       <div className={styles.container}>
         <main className={styles.main}>
-          <h1> Título </h1>
+          <h1> Code </h1>
         </main>
       </div>
     </>
   );
 };
 
-export default Home;
+export default Code;

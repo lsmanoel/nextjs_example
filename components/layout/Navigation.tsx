@@ -3,11 +3,18 @@ import Link from "next/link";
 import styles from "../../styles/components/Layout.module.scss";
 import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHouse, faCode } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHouse,
+  faCode,
+  faVial,
+  faListCheck,
+} from "@fortawesome/free-solid-svg-icons";
 
 const links = [
-  { href: "/", value: "Tela Inicial", icon: faHouse },
-  { href: "/page", value: "Page", icon: faCode },
+  { href: "/", value: "Perfil", icon: faHouse },
+  { href: "/code", value: "Code", icon: faCode },
+  { href: "/tests", value: "Tests", icon: faVial },
+  { href: "/cicd", value: "CI/CD", icon: faListCheck },
 ];
 
 interface Props {
