@@ -9,7 +9,9 @@ const CICD: NextPage = () => {
       </Head>
       <div className={styles.container}>
         <main className={styles.main}>
-          <h1> CI/CD </h1>
+          <div className={styles.lightBox}>
+            <h1> CI/CD </h1>
+          </div>
         </main>
       </div>
     </>

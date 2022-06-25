@@ -5,11 +5,13 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Lucas | Head</title>
+        <title>Lucas | Home</title>
       </Head>
       <div className={styles.container}>
         <main className={styles.main}>
-          <h1> Título </h1>
+          <div className={styles.lightBox}>
+            <h1> Título </h1>
+          </div>
         </main>
       </div>
     </>

@@ -9,7 +9,9 @@ const Tests: NextPage = () => {
       </Head>
       <div className={styles.container}>
         <main className={styles.main}>
-          <h1> Tests </h1>
+          <div className={styles.lightBox}>
+            <h1> Tests </h1>
+          </div>
         </main>
       </div>
     </>

@@ -9,7 +9,9 @@ const Code: NextPage = () => {
       </Head>
       <div className={styles.container}>
         <main className={styles.main}>
-          <h1> Code </h1>
+          <div className={styles.lightBox}>
+            <h1> Code </h1>
+          </div>
         </main>
       </div>
     </>

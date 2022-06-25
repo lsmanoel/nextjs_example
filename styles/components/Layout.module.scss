@@ -134,19 +134,19 @@
   display: flex;
   flex: 1 0 0;
   flex-direction: column;
-  width: 0;
+  // width: 0;
 
-  > main {
-    display: flex;
-    flex: 1 0 0;
-    flex-direction: column;
-    overflow: hidden;
-    z-index: 2;
-  }
   .body {
     display: flex;
     flex-direction: row;
     height: 100%;
+    > main {
+      display: flex;
+      flex: 1 0 0;
+      flex-direction: column;
+      overflow: hidden;
+      width: 100%;
+    }
   }
   > footer {
     border-top: 1px solid var(--border-color);
