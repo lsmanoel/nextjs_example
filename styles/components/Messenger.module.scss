@@ -4,7 +4,7 @@
   justify-content: space-between;
   background-color: var(--primary-color);
   position: absolute;
-  height: 700px;
+  height: 80%;
   right: 10px;
   left: 185px;
   padding: 50px;
@@ -15,7 +15,7 @@
   transition: top 2.5s ease;
   -webkit-transition: all 0.5s ease;
   &.hidden {
-    top: -800px;
+    top: -100%;
   }
   label {
     color: var(--selected-color);
