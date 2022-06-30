@@ -1,18 +1,28 @@
 import type { AppProps } from "next/app";
-import { useState } from "react";
+import React, { useState } from "react";
 import Layout from "components/layout/Layout";
+import { SessionProvider } from "next-auth/react";
 
 import "styles/globals.scss";
 
-function App({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   const [layout, setLayout] = useState<boolean>(true);
   return layout ? (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+    <SessionProvider session={session}>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </SessionProvider>
   ) : (
-    <Component {...pageProps} />
+    <SessionProvider session={session}>
+      <Component {...pageProps} />
+    </SessionProvider>
   );
+  // return (
+  //   <Layout>
+  //     <Component {...pageProps} />
+  //   </Layout>
+  // );
 }
 
 export default App;

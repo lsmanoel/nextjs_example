@@ -1,0 +1,70 @@
+.LoginButton button {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  cursor: pointer;
+  color: var(--primary-text-color);
+  background-color: var(--background-primary-color);
+  border-radius: 5px;
+  height: 40px;
+  margin: 5px 5px 0px 5px;
+  opacity: 1;
+  box-shadow: 2px 2px 2px 0 var(--shadow-color);
+  border-style: outset;
+  border-color: var(--outline-color);
+  border-width: 2px;
+  outline: none;
+  svg {
+    margin-right: 10px;
+  }
+  span,
+  svg {
+    transition: color 0.5s ease;
+    margin-left: 10px;
+  }
+  &:hover {
+    svg {
+      transform: scale(1.2);
+    }
+  }
+  &:active {
+    svg {
+      transform: scale(1.5);
+    }
+    box-shadow: none;
+    border-style: inset;
+  }
+  &.buttonEnable {
+    svg,
+    span {
+      transition: color 1s ease;
+      filter: drop-shadow(0 0 2px var(--selected-color));
+      color: var(--selected-color);
+    }
+  }
+  &.success {
+    svg,
+    span {
+      transition: color 1s ease;
+      filter: drop-shadow(0 0 2px var(--success-color));
+      color: var(--success-color);
+    }
+  }
+  &.warn {
+    svg,
+    span {
+      transition: color 1s ease;
+      filter: drop-shadow(0 0 2px var(--warn-color));
+      color: var(--warn-color);
+    }
+  }
+  &.error {
+    svg,
+    span {
+      transition: color 1s ease;
+      filter: drop-shadow(0 0 2px var(--error-color));
+      color: var(--error-color);
+    }
+  }
+}

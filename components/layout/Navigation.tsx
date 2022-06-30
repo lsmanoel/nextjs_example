@@ -8,6 +8,7 @@ import {
   faCode,
   faVial,
   faListCheck,
+  faUserCheck,
 } from "@fortawesome/free-solid-svg-icons";
 
 const links = [
@@ -15,6 +16,7 @@ const links = [
   { href: "/code", value: "Code", icon: faCode },
   { href: "/tests", value: "Tests", icon: faVial },
   { href: "/cicd", value: "CI/CD", icon: faListCheck },
+  { href: "/auth", value: "Auth", icon: faUserCheck },
 ];
 
 interface Props {
