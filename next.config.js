@@ -15,6 +15,9 @@ const nextConfig = {
     TEMPLATE_ID: process.env.TEMPLATE_ID,
     PUBLIC_KEY: process.env.PUBLIC_KEY,
   },
+  images: {
+    domains: ["avatars.githubusercontent.com", "lh3.googleusercontent.com"],
+  },
 };
 
 module.exports = nextConfig;
