@@ -6,17 +6,19 @@ import styles from "styles/components/LoginButton.module.scss";
 
 interface Props {
   icon: IconDefinition;
+  providerName: string;
 }
 
-export default function LoginButton({ icon }: Props) {
+export default function LoginButton({ icon, providerName }: Props) {
   const { data: session } = useSession();
+  const logged = session?.provider === providerName;
   return (
     <div className={styles.LoginButton}>
       <button
-        className={`${session ? styles.buttonEnable : ""}`}
-        onClick={() => (session ? signOut() : signIn())}
+        className={`${logged ? styles.buttonEnable : ""}`}
+        onClick={() => (logged ? signOut() : signIn(providerName))}
       >
-        {session ? <span>Logado com</span> : <span>Logar com</span>}
+        {logged ? <span>Logado com</span> : <span>Logar com</span>}
         {icon && <FontAwesomeIcon icon={icon}></FontAwesomeIcon>}
       </button>
     </div>

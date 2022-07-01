@@ -29,6 +29,10 @@ export default NextAuth({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
+    GithubProvider({
+      clientId: process.env.GITHUB_CLIENT_ID,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    }),
   ],
   // Database optional. MySQL, Maria DB, Postgres and MongoDB are supported.
   // https://next-auth.js.org/configuration/databases
@@ -78,7 +82,7 @@ export default NextAuth({
   // pages is not specified for that route.
   // https://next-auth.js.org/configuration/pages
   pages: {
-    // signIn: '/auth/signin',  // Displays signin buttons
+    // signIn: "/auth/signin", // Displays signin buttons
     // signOut: '/auth/signout', // Displays form with sign out button
     // error: '/auth/error', // Error code passed in query string as ?error=
     // verifyRequest: '/auth/verify-request', // Used for check email page
@@ -89,12 +93,18 @@ export default NextAuth({
   // when an action is performed.
   // https://next-auth.js.org/configuration/callbacks
   callbacks: {
-    // async signIn({ user, account, profile, email, credentials }) { return true },
-    // async redirect({ url, baseUrl }) { return baseUrl },
-    // async session({ session, token, user }) {
-    //   return session;
+    // async signIn({ user, account, profile, email, credentials }) {
+    //   return true;
     // },
-    // async jwt({ token, user, account, profile, isNewUser }) { return token }
+    // async redirect({ url, baseUrl }) { return baseUrl },
+    async session({ session, token, user }) {
+      if (token?.provider) session = { provider: token.provider, ...session };
+      return session;
+    },
+    async jwt({ token, user, account, profile, isNewUser }) {
+      if (account?.provider) token = { provider: account.provider, ...token };
+      return token;
+    },
   },
 
   // Events are useful for logging

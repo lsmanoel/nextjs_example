@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import Head from "next/head";
 import LoginButton from "components/loginButton";
-import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+import { faGoogle, faGithub } from "@fortawesome/free-brands-svg-icons";
 
 import styles from "styles/pages/Page.module.scss";
 
@@ -16,7 +16,8 @@ const Auth: NextPage = () => {
           <div className={styles.lightBox}>
             <h1> Autenticação </h1>
           </div>
-          <LoginButton icon={faGoogle} />
+          <LoginButton providerName="google" icon={faGoogle} />
+          <LoginButton providerName="github" icon={faGithub} />
         </main>
       </div>
     </>
