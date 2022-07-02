@@ -11,7 +11,7 @@ const Home: NextPage = () => {
       <div className={styles.container}>
         <main className={styles.main}>
           <div className={styles.lightBox}>
-            <h1> Título </h1>
+            <h1> Home </h1>
           </div>
         </main>
       </div>

@@ -15,6 +15,7 @@ interface Props {
   buttonMsgEnable: boolean;
   submitMsgStatus?: statusColor;
   onClickMsg: () => void;
+  onClickAvatar: () => void;
 }
 
 export default function Header({
@@ -23,6 +24,7 @@ export default function Header({
   buttonMsgEnable,
   submitMsgStatus,
   onClickMsg,
+  onClickAvatar,
 }: Props): ReactElement {
   const { data: session } = useSession();
   return (
@@ -37,14 +39,14 @@ export default function Header({
       </button>
       <div>
         {session?.user?.image && (
-          <div className={styles.img}>
+          <button className={styles.avatar} onClick={() => onClickAvatar()}>
             <Image
               alt="avatar"
               src={session.user.image}
-              width={30}
-              height={30}
+              width={38}
+              height={38}
             />
-          </div>
+          </button>
         )}
         <button
           className={`${buttonMsgEnable ? styles.buttonEnable : ""}

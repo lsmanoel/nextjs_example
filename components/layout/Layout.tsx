@@ -47,6 +47,7 @@ export default function Layout({ children }: Props): ReactElement {
           onClickFaBars={() => setHiddenNav(!hiddenNav)}
           buttonMsgEnable={!hiddenMsg}
           onClickMsg={() => setHiddenMsg(!hiddenMsg)}
+          onClickAvatar={() => router.push("/auth")}
           submitMsgStatus={submitMsgStatus}
         ></Header>
         <Messenger
