@@ -48,7 +48,6 @@ export default function Messenger({
   };
 
   const clearForm = () => {
-    setEmail("");
     setMessage("");
     onClear && onClear();
   };
