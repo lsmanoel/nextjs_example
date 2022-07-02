@@ -20,6 +20,7 @@ export default function LoginButton({ icon, providerName }: Props) {
       >
         {logged ? <span>Logado com</span> : <span>Logar com</span>}
         {icon && <FontAwesomeIcon icon={icon} />}
+        {logged && <span>(Aperte para efetuar o logout)</span>}
       </button>
     </div>
   );
