@@ -10,12 +10,12 @@
   border-right: 1px solid;
   margin-right: 1rem;
   padding: 0 1rem;
-  color: var(--selected-color);
-  text-shadow: 0 0 2px var(--selected-color);
+  color: var(--error-color);
+  text-shadow: 0 0 5px var(--error-color);
 }
 
 .message {
   font-weight: lighter;
-  color: var(--selected-color);
-  text-shadow: 0 0 2px var(--selected-color);
+  color: var(--error-color);
+  text-shadow: 0 0 5px var(--error-color);
 }

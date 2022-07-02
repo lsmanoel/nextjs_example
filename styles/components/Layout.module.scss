@@ -76,18 +76,14 @@
     }
     &.selected {
       opacity: 1;
-      color: var(--selected-color);
-      text-shadow: 0 0 2px var(--selected-color);
       transition: color text-shadow 0.5s ease;
       cursor: default;
       svg {
         transition: shadow 0.5s ease;
         transform: scale(1.2);
-        filter: drop-shadow(0 0 2px var(--selected-color));
       }
       &:hover {
         &::after {
-          background-color: var(--selected-color);
           transition: background-color 1s ease;
           border-radius: 2px;
           content: "";
@@ -103,8 +99,6 @@
       }
       &::after {
         transition: background-color box-shadow translate 0.5s ease;
-        background-color: var(--selected-color);
-        box-shadow: 0 0 4px var(--selected-color);
         border-radius: 2px;
         content: "";
         height: 60%;
@@ -115,6 +109,38 @@
 
         width: 2px;
         margin-right: -0.6em;
+      }
+    }
+    &.selected {
+      color: var(--selected-color);
+      text-shadow: 0 0 2px var(--selected-color);
+      svg {
+        filter: drop-shadow(0 0 2px var(--selected-color));
+      }
+      &:hover {
+        &::after {
+          background-color: var(--selected-color);
+        }
+      }
+      &::after {
+        background-color: var(--selected-color);
+        box-shadow: 0 0 4px var(--selected-color);
+      }
+    }
+    &.error {
+      color: var(--error-color);
+      text-shadow: 0 0 2px var(--error-color);
+      svg {
+        filter: drop-shadow(0 0 2px var(--error-color));
+      }
+      &:hover {
+        &::after {
+          background-color: var(--error-color);
+        }
+      }
+      &::after {
+        background-color: var(--error-color);
+        box-shadow: 0 0 4px var(--error-color);
       }
     }
   }
