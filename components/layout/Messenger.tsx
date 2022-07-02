@@ -3,6 +3,7 @@ import emailjs, { EmailJSResponseStatus } from "@emailjs/browser";
 import { statusColor } from "lib/statusColor";
 
 import styles from "styles/components/Messenger.module.scss";
+import { useSession } from "next-auth/react";
 
 interface Props {
   hidden: boolean;
@@ -15,6 +16,7 @@ export default function Messenger({
   onSubmit,
   onClear,
 }: Props): ReactElement {
+  const { data: session } = useSession();
   const form = useRef<HTMLFormElement>(null);
   const lastHiddenStatus = useRef<boolean>(hidden);
   const [status, setStatus] = useState<statusColor>();
@@ -63,6 +65,10 @@ export default function Messenger({
     }
     lastHiddenStatus.current = hidden;
   }, [hidden, onSubmit]);
+
+  useEffect(() => {
+    session?.user?.email && setEmail(session.user.email);
+  }, [session]);
 
   return (
     <form
