@@ -5,6 +5,8 @@ import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { statusColor } from "lib/statusColor";
 
 import styles from "styles/components/Layout.module.scss";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
 
 interface Props {
   title: string;
@@ -22,6 +24,7 @@ export default function Header({
   submitMsgStatus,
   onClickMsg,
 }: Props): ReactElement {
+  const { data: session } = useSession();
   return (
     <header className={`${styles.header}`}>
       <button
@@ -33,6 +36,16 @@ export default function Header({
         <FontAwesomeIcon icon={faBars}></FontAwesomeIcon>
       </button>
       <div>
+        {session?.user?.image && (
+          <div className={styles.img}>
+            <Image
+              alt="avatar"
+              src={session.user.image}
+              width={30}
+              height={30}
+            />
+          </div>
+        )}
         <button
           className={`${buttonMsgEnable ? styles.buttonEnable : ""}
                     ${submitMsgStatus === "success" ? styles.success : ""}

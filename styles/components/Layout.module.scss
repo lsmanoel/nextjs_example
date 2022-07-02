@@ -297,3 +297,17 @@ header.header {
     }
   }
 }
+.img {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  margin: 10px;
+  border-radius: 5%;
+  outline-color: var(--primary-color);
+  outline-style: solid;
+  outline-width: 2px;
+  box-shadow: 0 0 8px var(--shadow-color);
+  img {
+    border-radius: 5%;
+  }
+}
