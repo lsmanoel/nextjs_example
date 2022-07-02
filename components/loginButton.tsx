@@ -19,7 +19,7 @@ export default function LoginButton({ icon, providerName }: Props) {
         onClick={() => (logged ? signOut() : signIn(providerName))}
       >
         {logged ? <span>Logado com</span> : <span>Logar com</span>}
-        {icon && <FontAwesomeIcon icon={icon}></FontAwesomeIcon>}
+        {icon && <FontAwesomeIcon icon={icon} />}
       </button>
     </div>
   );
