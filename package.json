@@ -8,7 +8,14 @@
     "start": "next start",
     "export": "next export",
     "lint": "next lint",
-    "test": "jest --passWithNoTests --runInBand --no-cache"
+    "test": "jest --passWithNoTests --runInBand --no-cache",
+    "test:fetch-mock": "npm test -- --watch -t 'fetch-mock test'",
+    "test:watch:utils": "npm test -- 'utils' --watch",
+    "test:watch": "npm test -- --watch",
+    "test:watch-silent": "npm test -- --watch --silent",
+    "test:staged": "npm test -- findRelatedTests",
+    "test:ci": "npm test -- --coverage",
+    "test:coveralls": "npm run test:ci && coveralls < coverage/lcov.info "
   },
   "prettier": {},
   "dependencies": {
