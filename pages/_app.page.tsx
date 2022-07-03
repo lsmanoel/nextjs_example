@@ -5,7 +5,7 @@ import { SessionProvider } from "next-auth/react";
 
 import "styles/globals.scss";
 
-test lint-staged fxds
+test lint-staged fxdsxx
 
 function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   const [layout, setLayout] = useState<boolean>(true);
