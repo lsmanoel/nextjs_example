@@ -15,7 +15,8 @@
     "test:watch-silent": "npm test -- --watch --silent",
     "test:staged": "npm test -- findRelatedTests",
     "test:ci": "npm test -- --coverage",
-    "test:coveralls": "npm run test:ci && coveralls < coverage/lcov.info "
+    "test:coveralls": "npm run test:ci && coveralls < coverage/lcov.info ",
+    "prepare": "husky install"
   },
   "prettier": {},
   "dependencies": {
