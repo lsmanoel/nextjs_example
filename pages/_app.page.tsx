@@ -5,6 +5,8 @@ import { SessionProvider } from "next-auth/react";
 
 import "styles/globals.scss";
 
+test lint-staged 
+
 function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   const [layout, setLayout] = useState<boolean>(true);
   return layout ? (
@@ -18,11 +20,6 @@ function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
       <Component {...pageProps} />
     </SessionProvider>
   );
-  // return (
-  //   <Layout>
-  //     <Component {...pageProps} />
-  //   </Layout>
-  // );
 }
 
 export default App;
