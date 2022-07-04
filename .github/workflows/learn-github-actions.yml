@@ -19,4 +19,4 @@ jobs:
 
       - run: npm install
       - run: npm ci --ignore-scripts
-      - run: npx jest --passWithNoTests --runInBand --no-cache
+      - run: npx jest --passWithNoTests --runInBand --no-cache -- --coverage
