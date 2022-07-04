@@ -43,7 +43,7 @@ type SutTypes = {
   sut: RenderResult;
 };
 
-const sendEmail = ({ form, setStatus, onSubmit }: SendEmailProps) => {
+const successSendEmail = ({ form, setStatus, onSubmit }: SendEmailProps) => {
   console.log("success");
   setStatus("success");
   onSubmit && onSubmit("success");
@@ -65,11 +65,11 @@ describe("Messenger Components Render Test", () => {
   afterEach(cleanup);
 
   test("Login render test", () => {
-    makeSut({ hidden: true, sendEmail });
+    makeSut({ hidden: true, sendEmail: successSendEmail });
   });
 
   test("Login render test", () => {
-    const { sut } = makeSut({ hidden: true, sendEmail });
+    const { sut } = makeSut({ hidden: true, sendEmail: successSendEmail });
     const emailInput = sut.getByLabelText("Seu email:") as HTMLInputElement;
     const messengerInput = sut.getByLabelText("Mensagem:") as HTMLInputElement;
     const submitButton = sut.getByDisplayValue("Enviar") as HTMLInputElement;
@@ -90,7 +90,11 @@ describe("Messenger Components Behavior Test", () => {
       console.log(_status);
       status = _status;
     };
-    const { sut } = makeSut({ hidden: true, onSubmit, sendEmail });
+    const { sut } = makeSut({
+      hidden: true,
+      onSubmit,
+      sendEmail: successSendEmail,
+    });
     const emailInput = sut.getByLabelText("Seu email:") as HTMLInputElement;
     const messengerInput = sut.getByLabelText("Mensagem:") as HTMLInputElement;
     const form = sut.getByRole("form");
