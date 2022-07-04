@@ -1,7 +1,6 @@
 import React, { ReactElement, useEffect, useRef, useState } from "react";
-import emailjs from "@emailjs/browser";
 import { statusColor } from "lib/statusColor";
-
+import { Props as SendEmailProps } from "lib/emailjs/sendEmail";
 import styles from "styles/components/Messenger.module.scss";
 import { useSession } from "next-auth/react";
 
@@ -9,12 +8,14 @@ export interface Props {
   hidden: boolean;
   onSubmit?: (status: statusColor) => void;
   onClear?: () => void;
+  sendEmail: (props: SendEmailProps) => void;
 }
 
 export default function Messenger({
   hidden,
   onSubmit,
   onClear,
+  sendEmail,
 }: Props): ReactElement {
   const { data: session } = useSession();
   const form = useRef<HTMLFormElement>(null);
@@ -23,30 +24,6 @@ export default function Messenger({
   const [email, setEmail] = useState<string>("");
   const [message, setMessage] = useState<string>("");
 
-  const sendEmail = () => {
-    console.log(process.env.SERVICE_ID);
-    console.log(process.env.TEMPLATE_ID);
-    console.log(process.env.PUBLIC_KEY);
-    emailjs
-      .sendForm(
-        process.env.SERVICE_ID || "",
-        process.env.TEMPLATE_ID || "",
-        form.current || "",
-        process.env.PUBLIC_KEY || ""
-      )
-      .then(
-        (_) => {
-          setStatus("success");
-          onSubmit && onSubmit("success");
-        },
-        (error) => {
-          console.log(error.text);
-          setStatus("error");
-          onSubmit && onSubmit("error");
-        }
-      );
-  };
-
   const clearForm = () => {
     setMessage("");
     onClear && onClear();
@@ -54,7 +31,7 @@ export default function Messenger({
 
   const submit: React.FormEventHandler = async function (e) {
     e.preventDefault();
-    sendEmail();
+    sendEmail({ form, setStatus, onSubmit });
   };
 
   useEffect(() => {
@@ -72,6 +49,7 @@ export default function Messenger({
   return (
     <form
       ref={form}
+      role="form"
       className={`
       ${styles.Messenger}
       ${hidden ? styles.hidden : ""}
@@ -81,11 +59,11 @@ export default function Messenger({
       `}
       onSubmit={submit}
     >
-      <label>Seu email:</label>
+      <label htmlFor="email">Seu email:</label>
       <input
         type={"email"}
         placeholder={"Ensira o seu email..."}
-        name={"email"}
+        id={"email"}
         value={email}
         onInput={(e) => {
           setEmail((e.target as HTMLInputElement).value);
@@ -93,10 +71,10 @@ export default function Messenger({
         autoComplete="off"
         required
       />
-      <label>Mensagem:</label>
+      <label htmlFor="email">Mensagem:</label>
       <textarea
         placeholder={"Ensira sua mensagem..."}
-        name={"message"}
+        id={"message"}
         value={message}
         rows={40}
         onInput={(e) => {

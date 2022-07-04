@@ -10,6 +10,8 @@ import "@testing-library/jest-dom/extend-expect";
 
 import Messenger from "./Messenger";
 import { Props } from "./Messenger";
+import { statusColor } from "lib/statusColor";
+import { Props as SendEmailProps } from "lib/emailjs/sendEmail";
 
 jest.mock("next-auth/react", () => {
   const originalModule = jest.requireActual("next-auth/react");
@@ -41,21 +43,61 @@ type SutTypes = {
   sut: RenderResult;
 };
 
-const makeSut = ({ hidden, onSubmit, onClear }: Props): SutTypes => {
+const sendEmail = ({ form, setStatus, onSubmit }: SendEmailProps) => {
+  console.log("success");
+  setStatus("success");
+  onSubmit && onSubmit("success");
+};
+
+const makeSut = ({ hidden, onSubmit, onClear, sendEmail }: Props): SutTypes => {
   const sut = render(
     <Messenger
       hidden={hidden}
       onSubmit={onSubmit}
       onClear={onClear}
+      sendEmail={sendEmail}
     ></Messenger>
   );
   return { sut };
 };
 
-describe("Login Page Elements Test", () => {
+describe("Messenger Components Render Test", () => {
   afterEach(cleanup);
 
   test("Login render test", () => {
-    makeSut({ hidden: true });
+    makeSut({ hidden: true, sendEmail });
+  });
+
+  test("Login render test", () => {
+    const { sut } = makeSut({ hidden: true, sendEmail });
+    const emailInput = sut.getByLabelText("Seu email:") as HTMLInputElement;
+    const messengerInput = sut.getByLabelText("Mensagem:") as HTMLInputElement;
+    const submitButton = sut.getByDisplayValue("Enviar") as HTMLInputElement;
+    const clearButton = sut.getByDisplayValue("Limpar") as HTMLInputElement;
+    expect(emailInput).toBeTruthy();
+    expect(messengerInput).toBeTruthy();
+    expect(submitButton).toBeTruthy();
+    expect(clearButton).toBeTruthy();
+  });
+});
+
+describe("Messenger Components Behavior Test", () => {
+  afterEach(cleanup);
+
+  test("Success Send Email (happy way)", async () => {
+    let status: statusColor;
+    const onSubmit = (_status: statusColor): void => {
+      console.log(_status);
+      status = _status;
+    };
+    const { sut } = makeSut({ hidden: true, onSubmit, sendEmail });
+    const emailInput = sut.getByLabelText("Seu email:") as HTMLInputElement;
+    const messengerInput = sut.getByLabelText("Mensagem:") as HTMLInputElement;
+    const form = sut.getByRole("form");
+    fireEvent.input(emailInput, { target: { value: "abc@abc.com" } });
+    fireEvent.input(messengerInput, { target: { value: "TestText" } });
+    fireEvent.submit(form);
+    await waitFor(() => form);
+    expect(status).toBe("success");
   });
 });

@@ -6,8 +6,8 @@ import Footer from "./Footer";
 import Header from "./Header";
 import Navigation from "./Navigation";
 import Messenger from "./Messenger";
-
 import styles from "styles/components/Layout.module.scss";
+import sendEmail from "lib/emailjs/sendEmail";
 
 const routeTitles: Record<string, string> = {
   "/": "Home",
@@ -54,6 +54,7 @@ export default function Layout({ children }: Props): ReactElement {
           hidden={hiddenMsg}
           onSubmit={onSubmitMsg}
           onClear={onClearMsg}
+          sendEmail={sendEmail}
         ></Messenger>
         <div className={styles.body}>
           <Navigation hidden={hiddenNav}></Navigation>
