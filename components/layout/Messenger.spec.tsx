@@ -8,7 +8,8 @@ import {
 } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 
-import Layout from "./Layout";
+import Messenger from "./Messenger";
+import { Props } from "./Messenger";
 
 jest.mock("next-auth/react", () => {
   const originalModule = jest.requireActual("next-auth/react");
@@ -40,11 +41,13 @@ type SutTypes = {
   sut: RenderResult;
 };
 
-const makeSut = (): SutTypes => {
+const makeSut = ({ hidden, onSubmit, onClear }: Props): SutTypes => {
   const sut = render(
-    <Layout>
-      <></>
-    </Layout>
+    <Messenger
+      hidden={hidden}
+      onSubmit={onSubmit}
+      onClear={onClear}
+    ></Messenger>
   );
   return { sut };
 };
@@ -53,6 +56,6 @@ describe("Login Page Elements Test", () => {
   afterEach(cleanup);
 
   test("Login render test", () => {
-    makeSut();
+    makeSut({ hidden: true });
   });
 });

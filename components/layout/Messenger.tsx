@@ -5,7 +5,7 @@ import { statusColor } from "lib/statusColor";
 import styles from "styles/components/Messenger.module.scss";
 import { useSession } from "next-auth/react";
 
-interface Props {
+export interface Props {
   hidden: boolean;
   onSubmit?: (status: statusColor) => void;
   onClear?: () => void;
