@@ -10,4 +10,7 @@ jobs:
           node-version: "14"
       - run: npm install -g bats
       - run: bats -v
-      - run: npm run test:ci
+      - name: Install Dependencies
+        run: npm install
+      - name: Run the tests
+        run: npm run test:ci
