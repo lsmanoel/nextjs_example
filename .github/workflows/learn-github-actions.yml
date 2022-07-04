@@ -1,16 +1,22 @@
+
+
 name: learn-github-actions
 on: [push]
 jobs:
   check-bats-version:
     runs-on: ubuntu-latest
+    env:
+      CI: true
     steps:
       - uses: actions/checkout@v3
+      
       - uses: actions/setup-node@v3
         with:
           node-version: "14"
+          
       - run: npm install -g bats
       - run: bats -v
-      - name: Install Dependencies
-        run: npm install
-      - name: Run the tests
-        run: npm test
+
+      - run: npm install
+      - run: npm ci --ignore-scripts
+      - run: npx jest --passWithNoTests --runInBand --no-cache --coverage
