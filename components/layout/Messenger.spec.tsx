@@ -42,21 +42,6 @@ jest.mock("next/router", () => ({
 }));
 
 jest.mock("next-auth/react");
-// jest.mock("next-auth/react", () => ({
-//   useSession() {
-//     return {
-//       data: {
-//         provider: "provider",
-//         user: {
-//           name: "Mock User",
-//           email: "user@mock.com",
-//           image: "https://user.mock-avatar.net",
-//         },
-//         expires: "2022-01-01T12:01:01.001Z",
-//       },
-//     };
-//   },
-// }));
 
 type SutTypes = {
   sut: RenderResult;
