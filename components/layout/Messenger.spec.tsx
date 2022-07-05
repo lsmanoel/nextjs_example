@@ -67,11 +67,11 @@ const makeSut = ({ hidden, onSubmit, onClear, sendEmail }: Props): SutTypes => {
 describe("Messenger Components Render Test", () => {
   afterEach(cleanup);
 
-  test("Login render test", () => {
+  test("Login Render Test", () => {
     makeSut({ hidden: true, sendEmail: successSendEmail });
   });
 
-  test("Login render test", () => {
+  test("Login Components Verify", () => {
     const { sut } = makeSut({ hidden: true, sendEmail: successSendEmail });
     const emailInput = sut.getByLabelText("Seu email:") as HTMLInputElement;
     const messengerInput = sut.getByLabelText("Mensagem:") as HTMLInputElement;
@@ -107,24 +107,32 @@ describe("Messenger Components Behavior Test", () => {
     expect(status).toBe("success");
   });
 
-  test("Clear Form", async () => {
-    let status: statusColor;
-    const onSubmit = (_status: statusColor): void => {
-      status = _status;
-    };
+  test("Clear Form Button Test", async () => {
+    const onSubmit = (): void => {};
     const { sut } = makeSut({
       hidden: true,
       onSubmit,
       sendEmail: successSendEmail,
     });
-    const emailInput = sut.getByLabelText("Seu email:") as HTMLInputElement;
-    const messengerInput = sut.getByLabelText("Mensagem:") as HTMLInputElement;
-    const form = sut.getByRole("form");
-    fireEvent.input(emailInput, { target: { value: "abcabc.com" } });
+    const emailInput = sut.getByPlaceholderText(
+      "Ensira o seu email..."
+    ) as HTMLInputElement;
+    const messengerInput = sut.getByPlaceholderText(
+      "Ensira sua mensagem..."
+    ) as HTMLInputElement;
+    const cancelButton = sut.getByDisplayValue("Limpar");
+    fireEvent.input(emailInput, { target: { value: "user@mock.com" } });
     fireEvent.input(messengerInput, { target: { value: "TestText" } });
-    fireEvent.submit(form);
-    await waitFor(() => form);
-    expect(status).toBe("success");
+    await waitFor(() =>
+      expect(screen.queryByDisplayValue("user@mock.com")).toBeInTheDocument()
+    );
+    await waitFor(() =>
+      expect(screen.queryByDisplayValue("TestText")).toBeInTheDocument()
+    );
+    fireEvent.click(cancelButton);
+    await waitFor(() =>
+      expect(screen.queryByDisplayValue("TestText")).not.toBeInTheDocument()
+    );
   });
 });
 
@@ -165,7 +173,6 @@ describe("Messenger Components Behavior Test", () => {
       sendEmail: successSendEmail,
     });
     const emailInput = sut.getByLabelText("Seu email:") as HTMLInputElement;
-    console.log(emailInput.value);
     expect(emailInput.value).toBe("");
   });
 });
