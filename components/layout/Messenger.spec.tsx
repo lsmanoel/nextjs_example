@@ -5,8 +5,10 @@ import {
   cleanup,
   fireEvent,
   waitFor,
+  screen,
 } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
+import { useSession } from "next-auth/react";
 
 import Messenger from "./Messenger";
 import { Props } from "./Messenger";
@@ -39,12 +41,28 @@ jest.mock("next/router", () => ({
   },
 }));
 
+jest.mock("next-auth/react");
+// jest.mock("next-auth/react", () => ({
+//   useSession() {
+//     return {
+//       data: {
+//         provider: "provider",
+//         user: {
+//           name: "Mock User",
+//           email: "user@mock.com",
+//           image: "https://user.mock-avatar.net",
+//         },
+//         expires: "2022-01-01T12:01:01.001Z",
+//       },
+//     };
+//   },
+// }));
+
 type SutTypes = {
   sut: RenderResult;
 };
 
 const successSendEmail = ({ form, setStatus, onSubmit }: SendEmailProps) => {
-  console.log("success");
   setStatus("success");
   onSubmit && onSubmit("success");
 };
@@ -87,7 +105,6 @@ describe("Messenger Components Behavior Test", () => {
   test("Success Send Email (happy way)", async () => {
     let status: statusColor;
     const onSubmit = (_status: statusColor): void => {
-      console.log(_status);
       status = _status;
     };
     const { sut } = makeSut({
@@ -103,5 +120,67 @@ describe("Messenger Components Behavior Test", () => {
     fireEvent.submit(form);
     await waitFor(() => form);
     expect(status).toBe("success");
+  });
+
+  test("Clear Form", async () => {
+    let status: statusColor;
+    const onSubmit = (_status: statusColor): void => {
+      status = _status;
+    };
+    const { sut } = makeSut({
+      hidden: true,
+      onSubmit,
+      sendEmail: successSendEmail,
+    });
+    const emailInput = sut.getByLabelText("Seu email:") as HTMLInputElement;
+    const messengerInput = sut.getByLabelText("Mensagem:") as HTMLInputElement;
+    const form = sut.getByRole("form");
+    fireEvent.input(emailInput, { target: { value: "abcabc.com" } });
+    fireEvent.input(messengerInput, { target: { value: "TestText" } });
+    fireEvent.submit(form);
+    await waitFor(() => form);
+    expect(status).toBe("success");
+  });
+});
+
+describe("Messenger Components Behavior Test", () => {
+  afterEach(cleanup);
+
+  test("Should set email field with session email.", async () => {
+    const mockSession = {
+      data: {
+        provider: "provider",
+        user: {
+          name: "Mock User",
+          email: "user@mock.com",
+          image: "https://user.mock-avatar.net",
+        },
+        expires: "2022-01-01T12:01:01.001Z",
+      },
+    };
+    (useSession as jest.Mock).mockReturnValueOnce(mockSession);
+    const onSubmit = (): void => {};
+    const { sut } = makeSut({
+      hidden: true,
+      onSubmit,
+      sendEmail: successSendEmail,
+    });
+    expect(screen.queryByDisplayValue("user@mock.com")).toBeInTheDocument();
+  });
+
+  test("Email field shound be empty without session.", async () => {
+    const mockSession = {
+      data: null,
+    };
+    (useSession as jest.Mock).mockReturnValueOnce(mockSession);
+    const onSubmit = (): void => {};
+    const { sut } = makeSut({
+      hidden: true,
+      onSubmit,
+      sendEmail: successSendEmail,
+    });
+    const emailInput = sut.getByLabelText("Seu email:") as HTMLInputElement;
+    console.log(emailInput.value);
+    expect(emailInput.value).toBe("");
   });
 });
