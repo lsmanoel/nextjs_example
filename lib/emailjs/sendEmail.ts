@@ -3,7 +3,7 @@ import emailjs from "@emailjs/browser";
 import { statusColor } from "lib/statusColor";
 
 export interface Props {
-  form: React.MutableRefObject<HTMLFormElement>;
+  form: HTMLFormElement;
   setStatus: React.Dispatch<React.SetStateAction<statusColor>>;
   onSubmit?: (status: statusColor) => void;
 }
@@ -13,7 +13,7 @@ const sendEmail = ({ form, setStatus, onSubmit }: Props) => {
     .sendForm(
       process.env.SERVICE_ID || "",
       process.env.TEMPLATE_ID || "",
-      form.current || "",
+      form || "",
       process.env.PUBLIC_KEY || ""
     )
     .then(

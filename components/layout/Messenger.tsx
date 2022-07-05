@@ -31,7 +31,8 @@ export default function Messenger({
 
   const submit: React.FormEventHandler = async function (e) {
     e.preventDefault();
-    sendEmail({ form, setStatus, onSubmit });
+    console.log(form.current);
+    sendEmail({ form: form.current, setStatus, onSubmit });
   };
 
   useEffect(() => {
@@ -63,7 +64,7 @@ export default function Messenger({
       <input
         type={"email"}
         placeholder={"Ensira o seu email..."}
-        id={"email"}
+        name={"email"}
         value={email}
         onInput={(e) => {
           setEmail((e.target as HTMLInputElement).value);
@@ -74,7 +75,7 @@ export default function Messenger({
       <label htmlFor="email">Mensagem:</label>
       <textarea
         placeholder={"Ensira sua mensagem..."}
-        id={"message"}
+        name={"message"}
         value={message}
         rows={40}
         onInput={(e) => {

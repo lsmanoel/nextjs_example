@@ -73,8 +73,12 @@ describe("Messenger Components Render Test", () => {
 
   test("Login Components Verify", () => {
     const { sut } = makeSut({ hidden: true, sendEmail: successSendEmail });
-    const emailInput = sut.getByLabelText("Seu email:") as HTMLInputElement;
-    const messengerInput = sut.getByLabelText("Mensagem:") as HTMLInputElement;
+    const emailInput = sut.getByPlaceholderText(
+      "Ensira o seu email..."
+    ) as HTMLInputElement;
+    const messengerInput = sut.getByPlaceholderText(
+      "Ensira sua mensagem..."
+    ) as HTMLInputElement;
     const submitButton = sut.getByDisplayValue("Enviar") as HTMLInputElement;
     const clearButton = sut.getByDisplayValue("Limpar") as HTMLInputElement;
     expect(emailInput).toBeTruthy();
@@ -97,14 +101,98 @@ describe("Messenger Components Behavior Test", () => {
       onSubmit,
       sendEmail: successSendEmail,
     });
-    const emailInput = sut.getByLabelText("Seu email:") as HTMLInputElement;
-    const messengerInput = sut.getByLabelText("Mensagem:") as HTMLInputElement;
+    const emailInput = sut.getByPlaceholderText(
+      "Ensira o seu email..."
+    ) as HTMLInputElement;
+    const messengerInput = sut.getByPlaceholderText(
+      "Ensira sua mensagem..."
+    ) as HTMLInputElement;
     const form = sut.getByRole("form");
-    fireEvent.input(emailInput, { target: { value: "abc@abc.com" } });
+    fireEvent.input(emailInput, { target: { value: "user@mock.com" } });
     fireEvent.input(messengerInput, { target: { value: "TestText" } });
     fireEvent.submit(form);
     await waitFor(() => form);
     expect(status).toBe("success");
+  });
+
+  test("Clear Form on Success Submit (with session)", async () => {
+    const mockSession = {
+      data: {
+        provider: "provider",
+        user: {
+          name: "Mock User",
+          email: "user@mock.com",
+          image: "https://user.mock-avatar.net",
+        },
+        expires: "2022-01-01T12:01:01.001Z",
+      },
+    };
+    (useSession as jest.Mock).mockReturnValueOnce(mockSession);
+
+    const onSubmit = (): void => {};
+    const { sut } = makeSut({
+      hidden: true,
+      onSubmit,
+      sendEmail: successSendEmail,
+    });
+    const emailInput = sut.getByPlaceholderText(
+      "Ensira o seu email..."
+    ) as HTMLInputElement;
+    const messengerInput = sut.getByPlaceholderText(
+      "Ensira sua mensagem..."
+    ) as HTMLInputElement;
+    const form = sut.getByRole("form");
+    fireEvent.input(emailInput, { target: { value: "user@mock.com" } });
+    fireEvent.input(messengerInput, { target: { value: "TestText" } });
+    await waitFor(() =>
+      expect(screen.queryByDisplayValue("user@mock.com")).toBeInTheDocument()
+    );
+    await waitFor(() =>
+      expect(screen.queryByDisplayValue("TestText")).toBeInTheDocument()
+    );
+    fireEvent.submit(form);
+    await waitFor(() =>
+      expect(screen.queryByDisplayValue("user@mock.com")).toBeInTheDocument()
+    );
+    await waitFor(() =>
+      expect(screen.queryByDisplayValue("TestText")).toBeInTheDocument()
+    );
+  });
+
+  test("Should not clear form on Success Submit (without session)", async () => {
+    const mockSession = {
+      data: null,
+    };
+    (useSession as jest.Mock).mockReturnValueOnce(mockSession);
+
+    const onSubmit = (): void => {};
+    const { sut } = makeSut({
+      hidden: true,
+      onSubmit,
+      sendEmail: successSendEmail,
+    });
+    const emailInput = sut.getByPlaceholderText(
+      "Ensira o seu email..."
+    ) as HTMLInputElement;
+    const messengerInput = sut.getByPlaceholderText(
+      "Ensira sua mensagem..."
+    ) as HTMLInputElement;
+    const form = sut.getByRole("form");
+    fireEvent.input(emailInput, { target: { value: "user@mock.com" } });
+    fireEvent.input(messengerInput, { target: { value: "TestText" } });
+    await waitFor(() =>
+      expect(screen.queryByDisplayValue("user@mock.com")).toBeInTheDocument()
+    );
+    await waitFor(() =>
+      expect(screen.queryByDisplayValue("TestText")).toBeInTheDocument()
+    );
+    fireEvent.submit(form);
+    await waitFor(() =>
+      expect(screen.queryByDisplayValue("user@mock.com")).toBeInTheDocument()
+    );
+    await waitFor(() =>
+      expect(screen.queryByDisplayValue("TestText")).toBeInTheDocument()
+    );
   });
 
   test("Clear Form Button Test", async () => {
@@ -130,6 +218,9 @@ describe("Messenger Components Behavior Test", () => {
       expect(screen.queryByDisplayValue("TestText")).toBeInTheDocument()
     );
     fireEvent.click(cancelButton);
+    await waitFor(() =>
+      expect(screen.queryByDisplayValue("user@mock.com")).toBeInTheDocument()
+    );
     await waitFor(() =>
       expect(screen.queryByDisplayValue("TestText")).not.toBeInTheDocument()
     );
@@ -172,7 +263,9 @@ describe("Messenger Components Behavior Test", () => {
       onSubmit,
       sendEmail: successSendEmail,
     });
-    const emailInput = sut.getByLabelText("Seu email:") as HTMLInputElement;
+    const emailInput = sut.getByPlaceholderText(
+      "Ensira o seu email..."
+    ) as HTMLInputElement;
     expect(emailInput.value).toBe("");
   });
 });
