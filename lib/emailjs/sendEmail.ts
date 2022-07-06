@@ -4,7 +4,7 @@ import { statusColor } from "lib/statusColor";
 
 export interface Props {
   form: HTMLFormElement;
-  setStatus: React.Dispatch<React.SetStateAction<statusColor>>;
+  setStatus?: React.Dispatch<React.SetStateAction<statusColor>>;
   onSubmit?: (status: statusColor) => void;
 }
 
@@ -18,12 +18,12 @@ const sendEmail = ({ form, setStatus, onSubmit }: Props) => {
     )
     .then(
       (_) => {
-        setStatus("success");
+        setStatus && setStatus("success");
         onSubmit && onSubmit("success");
       },
       (error) => {
         console.log(error.text);
-        setStatus("error");
+        setStatus && setStatus("error");
         onSubmit && onSubmit("error");
       }
     );
