@@ -31,6 +31,10 @@ const CICD: NextPage = () => {
             <h1> CI/CD </h1>
           </div>
 
+          <p>
+            Primeira etapa do pipeline é o teste com{" "}
+            <a href="https://github.com/bats-core/bats-core#readme">Bats</a>.
+          </p>
           {!loading && (
             <div className={styles.CodeBlock}>
               <div>

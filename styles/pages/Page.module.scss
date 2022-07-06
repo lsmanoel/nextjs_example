@@ -28,6 +28,18 @@
     color: var(--selected-color);
     text-shadow: 0 0 3px var(--selected-color);
   }
+
+  p {
+    width: 600px;
+    color: var(--primary-text-color);
+
+    a {
+      color: var(--selected-color);
+      &:hover {
+        text-shadow: 0 0 3px var(--selected-color);
+      }
+    }
+  }
 }
 
 .CodeBlock {
