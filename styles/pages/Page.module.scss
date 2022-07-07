@@ -33,14 +33,20 @@
     text-shadow: 0 0 3px var(--selected-color);
   }
 
+  li::marker {
+    content: "◄ ";
+    filter: drop-shadow(0 0 2px var(--selected-color));
+    text-shadow: 0 0 2px var(--selected-color);
+  }
+
   li {
     color: var(--selected-color);
-    text-shadow: 0 0 2px var(--selected-color);
     border: none;
     p {
       width: 600px;
       color: var(--primary-text-color);
       text-shadow: none;
+      filter: drop-shadow(0 0 0 var(--primary-text-color));
 
       a {
         color: var(--selected-color);

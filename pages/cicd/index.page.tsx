@@ -36,7 +36,7 @@ const CICD: NextPage = () => {
             <ul>
               <li>
                 <p>
-                  Primeira etapa do pipeline é o teste com{" "}
+                  Primeira etapa do pipeline é o teste com
                   <a href="https://github.com/bats-core/bats-core#readme">
                     Bats
                   </a>
