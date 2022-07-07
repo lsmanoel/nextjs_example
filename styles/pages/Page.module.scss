@@ -1,18 +1,21 @@
 .container {
   padding: 2rem 2rem;
-  // width: 90vw;
+  display: flex;
+  align-items: flex-start;
+  height: calc(100vh - 10em);
+  max-height: calc(100vh - 10em);
+  overflow-y: auto;
 }
 
 .main {
-  // min-height: 100vh;
   padding: 1rem 0;
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   width: 100%;
-  height: 100%;
+
   .lightBox {
     box-shadow: 0 0 2px var(--selected-color);
     border-color: var(--selected-color);
@@ -22,21 +25,29 @@
     width: 100%;
     margin-bottom: 1.5rem;
   }
-  h1 {
+  h1,
+  h2 {
     margin-left: 25px;
     margin-right: 25px;
     color: var(--selected-color);
     text-shadow: 0 0 3px var(--selected-color);
   }
 
-  p {
-    width: 600px;
-    color: var(--primary-text-color);
+  li {
+    color: var(--selected-color);
+    text-shadow: 0 0 2px var(--selected-color);
+    border: none;
+    p {
+      width: 600px;
+      color: var(--primary-text-color);
+      text-shadow: none;
 
-    a {
-      color: var(--selected-color);
-      &:hover {
-        text-shadow: 0 0 3px var(--selected-color);
+      a {
+        color: var(--selected-color);
+        text-shadow: 0 0 2px var(--selected-color);
+        &:hover {
+          text-shadow: 0 0 4px var(--selected-color);
+        }
       }
     }
   }
@@ -53,5 +64,12 @@
     justify-content: space-between;
     color: var(--selected-color);
     text-shadow: 0 0 3px var(--selected-color);
+    a {
+      color: var(--selected-color);
+      text-shadow: 0 0 2px var(--selected-color);
+      &:hover {
+        text-shadow: 0 0 4px var(--selected-color);
+      }
+    }
   }
 }

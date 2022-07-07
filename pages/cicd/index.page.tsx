@@ -31,31 +31,60 @@ const CICD: NextPage = () => {
             <h1> CI/CD </h1>
           </div>
 
-          <p>
-            Primeira etapa do pipeline é o teste com{" "}
-            <a href="https://github.com/bats-core/bats-core#readme">Bats</a>.
-          </p>
-          {!loading && (
-            <div className={styles.CodeBlock}>
-              <div>
-                <a href="https://github.com/lsmanoel/nextjs_example/blob/main/.github/workflows/github-actions-CI.yml">
-                  .github/workflows/github-actions-CI.yml
-                </a>
-                <BuildStatusBadge>
-                  [![github-actions-ci](https://github.com/lsmanoel/curriculum/actions/workflows/github-actions-CI.yml/badge.svg)](https://github.com/lsmanoel/curriculum/actions/workflows/github-actions-CI.yml)
-                </BuildStatusBadge>
+          <div>
+            <h2>Pipeline</h2>
+            <ul>
+              <li>
+                <p>
+                  Primeira etapa do pipeline é o teste com{" "}
+                  <a href="https://github.com/bats-core/bats-core#readme">
+                    Bats
+                  </a>
+                  .
+                </p>
+              </li>
+              <li>
+                <p>
+                  Primeira etapa do pipeline é o teste com{" "}
+                  <a href="https://github.com/bats-core/bats-core#readme">
+                    Bats
+                  </a>
+                  .
+                </p>
+              </li>
+              <li>
+                <p>
+                  Primeira etapa do pipeline é o teste com{" "}
+                  <a href="https://github.com/bats-core/bats-core#readme">
+                    Bats
+                  </a>
+                  .
+                </p>
+              </li>
+            </ul>
+
+            {!loading && (
+              <div className={styles.CodeBlock}>
+                <div>
+                  <a href="https://github.com/lsmanoel/nextjs_example/blob/main/.github/workflows/github-actions-CI.yml">
+                    .github/workflows/github-actions-CI.yml
+                  </a>
+                  <BuildStatusBadge>
+                    [![github-actions-ci](https://github.com/lsmanoel/curriculum/actions/workflows/github-actions-CI.yml/badge.svg)](https://github.com/lsmanoel/curriculum/actions/workflows/github-actions-CI.yml)
+                  </BuildStatusBadge>
+                </div>
+                <CodeBlock
+                  text={code}
+                  language="yml"
+                  showLineNumbers={true}
+                  theme={dracula}
+                  customStyle={{
+                    background: "none",
+                  }}
+                />
               </div>
-              <CodeBlock
-                text={code}
-                language="yml"
-                showLineNumbers={true}
-                theme={dracula}
-                customStyle={{
-                  background: "none",
-                }}
-              />
-            </div>
-          )}
+            )}
+          </div>
         </main>
       </div>
     </>
