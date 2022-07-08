@@ -13,8 +13,8 @@ jobs:
           node-version: "14"
 
       - run: npm install -g bats
-      - run: npm run-script build
       - run: bats -v
 
       - run: npm ci --ignore-scripts
+      - run: npm run-script build
       - run: npx jest --passWithNoTests --runInBand --no-cache --coverage
