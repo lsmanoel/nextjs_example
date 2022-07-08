@@ -13,6 +13,7 @@ jobs:
           node-version: "14"
 
       - run: npm install -g bats
+      - run: npm build
       - run: bats -v
 
       - run: npm ci --ignore-scripts
