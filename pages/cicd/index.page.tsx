@@ -36,7 +36,7 @@ const CICD: NextPage = () => {
             <ul>
               <li>
                 <p>
-                  Primeira etapa do pipeline é o teste com
+                  1. Teste com{" "}
                   <a href="https://github.com/bats-core/bats-core#readme">
                     Bats
                   </a>
@@ -44,25 +44,11 @@ const CICD: NextPage = () => {
                 </p>
               </li>
               <li>
-                <p>
-                  Primeira etapa do pipeline é o teste com{" "}
-                  <a href="https://github.com/bats-core/bats-core#readme">
-                    Bats
-                  </a>
-                  .
-                </p>
+                <p>2. Build do projeto.</p>
               </li>
-              <li>
-                <p>
-                  Primeira etapa do pipeline é o teste com{" "}
-                  <a href="https://github.com/bats-core/bats-core#readme">
-                    Bats
-                  </a>
-                  .
-                </p>
-              </li>
+              <p>3. Testes unitário.</p>
+              <li></li>
             </ul>
-
             {!loading && (
               <div className={styles.CodeBlock}>
                 <div>
