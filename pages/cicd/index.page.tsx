@@ -46,8 +46,9 @@ const CICD: NextPage = () => {
               <li>
                 <p>2. Build do projeto.</p>
               </li>
-              <p>3. Testes unitário.</p>
-              <li></li>
+              <li>
+                <p>3. Testes unitário.</p>
+              </li>
             </ul>
             {!loading && (
               <div className={styles.CodeBlock}>

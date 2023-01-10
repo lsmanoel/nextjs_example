@@ -9,7 +9,6 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 
 interface Props {
-  title: string;
   buttonFaBarsEnable: boolean;
   onClickFaBars: () => void;
   buttonMsgEnable: boolean;

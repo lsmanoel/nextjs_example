@@ -1,17 +1,12 @@
 import React, { ReactElement, useState } from "react";
 import { useRouter } from "next/router";
 import { statusColor } from "lib/statusColor";
-import Head from "next/head";
 import Footer from "./Footer";
 import Header from "./Header";
 import Navigation from "./Navigation";
 import Messenger from "./Messenger";
 import styles from "styles/components/Layout.module.scss";
 import sendEmail from "lib/emailjs/sendEmail";
-
-const routeTitles: Record<string, string> = {
-  "/": "Home",
-};
 
 interface Props {
   children: React.ReactNode;
@@ -22,7 +17,6 @@ export default function Layout({ children }: Props): ReactElement {
   const [hiddenMsg, setHiddenMsg] = useState(true);
   const [submitMsgStatus, setSubmitMsgStatus] = useState<statusColor>();
   const router = useRouter();
-  const title = routeTitles[router.pathname] || "";
 
   const onSubmitMsg = (status: statusColor): void => {
     setHiddenMsg(!!status);
@@ -36,13 +30,8 @@ export default function Layout({ children }: Props): ReactElement {
 
   return (
     <>
-      <Head>
-        <title>{`WebRec | ${title || "404"}`}</title>
-      </Head>
-
       <div className={styles.content}>
         <Header
-          title={title}
           buttonFaBarsEnable={!hiddenNav}
           onClickFaBars={() => setHiddenNav(!hiddenNav)}
           buttonMsgEnable={!hiddenMsg}

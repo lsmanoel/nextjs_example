@@ -10,6 +10,12 @@
     "prettier",
     "plugin:react/recommended"
   ],
+  "globals": {
+    "cy": true
+  },
+  "env": {
+    "cypress/globals": true
+  },
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint"],
   "parserOptions": {
