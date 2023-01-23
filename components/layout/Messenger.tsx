@@ -31,7 +31,6 @@ export default function Messenger({
 
   const submit: React.FormEventHandler = async function (e) {
     e.preventDefault();
-    console.log(form.current);
     sendEmail({ form: form.current, setStatus, onSubmit });
   };
 
