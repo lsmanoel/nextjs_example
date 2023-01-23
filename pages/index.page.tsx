@@ -1,8 +1,26 @@
 import { NextPage } from "next";
+import { useState, useEffect } from "react";
 import styles from "styles/pages/Page.module.scss";
 import Head from "next/head";
 
 const Home: NextPage = () => {
+  const innerWidthThreshold = 1400;
+  const [innerWidth, getInnerWidth] = useState(innerWidthThreshold + 1);
+  const setInnerWidth = () => {
+    console.log(window.innerWidth);
+    getInnerWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    setInnerWidth();
+  }, []);
+  useEffect(() => {
+    window.addEventListener("resize", setInnerWidth);
+    return () => {
+      window.removeEventListener("resize", setInnerWidth);
+    };
+  }, [innerWidth, setInnerWidth]);
+
   return (
     <>
       <Head>
@@ -14,7 +32,11 @@ const Home: NextPage = () => {
             <h1> Lucas Seara Manoel </h1>
           </div>
 
-          <div className={styles.row}>
+          <div
+            className={
+              innerWidth > innerWidthThreshold ? styles.row : styles.column
+            }
+          >
             <div className={styles.column}>
               <h2>Resumo </h2>
               <h3>
