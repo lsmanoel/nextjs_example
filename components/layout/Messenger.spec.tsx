@@ -14,6 +14,7 @@ import Messenger from "./Messenger";
 import { Props } from "./Messenger";
 import { statusColor } from "lib/statusColor";
 import { Props as SendEmailProps } from "lib/emailjs/sendEmail";
+import React from "react";
 
 jest.mock("next-auth/react", () => {
   const originalModule = jest.requireActual("next-auth/react");

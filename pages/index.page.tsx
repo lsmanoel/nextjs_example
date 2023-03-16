@@ -58,18 +58,20 @@ const Home: NextPage = () => {
                 em diminuir ou aumentar a iluminação de acordo com a demanda.
                 Meu TCC foi sobre Visão Computacional, utilizei python e C++ e
                 linux embarcado com o sistema ROS (Robot Operating System).
-                Segue o link do TCC. Gosto bastante de linux. Já utilizei debian
-                9 e 10 e o Ubuntu 18 quando desenvolvi com ROS. Após o término
-                da graduação trabalhei como freelancer no firmware de um motor
-                de popa elétrico controlado remotamente. Utilizei o
-                Stm32f103c8t6 e o rádio RF24. Também atuei na criação de
-                aplicativos WEB e Mobile. Em seguida, trabalhei para esta mesma
-                empresa como programador fullstack freelancer, desenvolvi um
-                backend em NodeJs que integrava um banco de dados MongoDB com um
-                aplicativo WEB feito com React. Também trabalhei no
-                desenvolvimento de um aplicativo Mobile feito com React Native.
-                Por interesse, estudei um pouco de TypeScript, TDD e Clean
-                Architecture.
+                Segue o link do TCC{" "}
+                <a href="https://drive.google.com/file/d/1Ei1-eol5fQ9zp7CFsud-u0lzOeMOkwBS/view?usp=sharing">
+                  link do TCC
+                </a>{" "}
+                . Gosto bastante de linux. Após o término da graduação trabalhei
+                como freelancer no firmware de um motor de popa elétrico
+                controlado remotamente que utilizava o Stm32f103c8t6 e o rádio
+                RF24. Também trabalhei na criação de aplicativos WEB e Mobile.
+                Em seguida, trabalhei para esta mesma empresa como programador
+                fullstack freelancer utilizando ReactJS, React Native, NodeJS e
+                MongoDB. Também já trabalhei com NextJS e deploy em Kubernets. A
+                maior parte dos meus trabalhos foram com frontend utilizando
+                TypeScript, mas tenho interesse em migrar para trabalhar com
+                backend e data science utilizando Python.
               </h3>
             </div>
             <div className={styles.column}>
@@ -78,13 +80,13 @@ const Home: NextPage = () => {
                 <li>
                   <p>
                     <b>Fullstack Dev</b> (JavaScript, TypeScript, CSS, SQL,
-                    NextJs, React, React-Native, NodeJs, MongoDB, NeDB,
+                    NextJS, ReactJS, React Native, NodeJS, MongoDB, NeDB,
                     Firebase, Postgres)
                   </p>
                 </li>
                 <li>
                   <p>
-                    <b>AI</b> (python: Keras, Tensorflow, DLib)
+                    <b>AI</b> (Python: Keras, Tensorflow 1, DLib)
                   </p>
                 </li>
                 <li>
