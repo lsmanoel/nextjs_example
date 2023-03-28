@@ -7,6 +7,7 @@ import { statusColor } from "lib/statusColor";
 import styles from "styles/components/Layout.module.scss";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
 
 interface Props {
   buttonFaBarsEnable: boolean;
@@ -47,6 +48,17 @@ export default function Header({
             />
           </button>
         )}
+        <button
+          className={styles.iconButton}
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            window.location.href = "https://github.com/lsmanoel";
+          }}
+        >
+          <FontAwesomeIcon icon={faGithub} size="xl"></FontAwesomeIcon>
+        </button>
+
         <button
           className={`${buttonMsgEnable ? styles.buttonEnable : ""}
                     ${submitMsgStatus === "success" ? styles.success : ""}
