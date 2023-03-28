@@ -59,7 +59,10 @@ const Home: NextPage = () => {
                 Meu TCC foi sobre Visão Computacional, utilizei python e C++ e
                 linux embarcado com o sistema ROS (Robot Operating System).
                 Segue o link do TCC{" "}
-                <a href="https://drive.google.com/file/d/1Ei1-eol5fQ9zp7CFsud-u0lzOeMOkwBS/view?usp=sharing">
+                <a
+                  href="https://drive.google.com/file/d/1Ei1-eol5fQ9zp7CFsud-u0lzOeMOkwBS/view?usp=sharing"
+                  target="_blank"
+                >
                   link do TCC
                 </a>{" "}
                 . Gosto bastante de linux. Após o término da graduação trabalhei

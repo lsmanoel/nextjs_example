@@ -37,7 +37,10 @@ const CICD: NextPage = () => {
               <li>
                 <p>
                   1. Teste com{" "}
-                  <a href="https://github.com/bats-core/bats-core#readme">
+                  <a
+                    href="https://github.com/bats-core/bats-core#readme"
+                    target="_blank"
+                  >
                     Bats
                   </a>
                   .
@@ -53,7 +56,10 @@ const CICD: NextPage = () => {
             {!loading && (
               <div className={styles.CodeBlock}>
                 <div>
-                  <a href="https://github.com/lsmanoel/nextjs_example/blob/main/.github/workflows/github-actions-CI.yml">
+                  <a
+                    href="https://github.com/lsmanoel/nextjs_example/blob/main/.github/workflows/github-actions-CI.yml"
+                    target="_blank"
+                  >
                     .github/workflows/github-actions-CI.yml
                   </a>
                   <BuildStatusBadge>
