@@ -12,7 +12,7 @@ const Auth: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Lucas | auth</title>
+        <title>Lucas | Autenticação</title>
       </Head>
       <div className={styles.container}>
         <main className={styles.main}>

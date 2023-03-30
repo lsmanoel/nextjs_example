@@ -5,12 +5,12 @@ const Tests: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Lucas | Tests</title>
+        <title>Lucas | Testes Unitários</title>
       </Head>
       <div className={styles.container}>
         <main className={styles.main}>
           <div className={styles.lightBox}>
-            <h1> Tests </h1>
+            <h1> Testes Unitários </h1>
           </div>
 
           <div className={styles.column}>

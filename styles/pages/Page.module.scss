@@ -25,6 +25,10 @@
     display: flex;
     flex-direction: column;
   }
+  &.column50 {
+    width: 30%;
+    height: 100%;
+  }
 
   .lightBox {
     box-shadow: 0 0 2px var(--selected-color);

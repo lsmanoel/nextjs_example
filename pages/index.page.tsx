@@ -47,32 +47,31 @@ const Home: NextPage = () => {
                 interessei por Inteligência Artificial. Fora da graduação fiz
                 cursos de TensorFlow, Keras e Dlib. No último semestre da
                 graduação, auxiliei a tese de doutorado de um professor
-                utilizando Python, Pandas e Matplotlib para processar dados em
-                arquivos de texto provenientes de sensores e apresentar os
-                resultados desse processamento. Nesse mesmo semestre, eu e mais
-                três colegas, ganhamos o prêmio do Desafio Ifsc Ideias
-                Inovadoras. A ideia consistia de um sistema baseado em visão
-                computacional para análise de tráfego de veículos e pedestres. O
-                objetivo era, por meio dos dados adquiridos, descobrir se há
-                falta ou excesso na iluminação pública. A ideia também consistia
-                em diminuir ou aumentar a iluminação de acordo com a demanda.
-                Meu TCC foi sobre Visão Computacional, utilizei python e C++ e
-                linux embarcado com o sistema ROS (Robot Operating System).
-                Segue o link do TCC{" "}
+                utilizando Python, Pandas e Matplotlib para processar dados
+                provenientes de sensores e apresentar os resultados desse
+                processamento. Nesse mesmo semestre, eu e mais três colegas,
+                ganhamos o prêmio do Desafio Ifsc Ideias Inovadoras. A ideia
+                consistia de um sistema baseado em visão computacional para
+                análise de tráfego de veículos e pedestres. O objetivo era, por
+                meio dos dados adquiridos, descobrir se há falta ou excesso na
+                iluminação pública. A ideia também consistia em diminuir ou
+                aumentar a iluminação de acordo com a demanda. Meu TCC foi sobre
+                Visão Computacional, utilizei Python e C++ e Linux embarcado com
+                o sistema ROS (Robot Operating System). Segue o link do TCC{" "}
                 <a
                   href="https://drive.google.com/file/d/1Ei1-eol5fQ9zp7CFsud-u0lzOeMOkwBS/view?usp=sharing"
                   target="_blank"
                 >
                   link do TCC
                 </a>{" "}
-                . Gosto bastante de linux. Após o término da graduação trabalhei
-                como freelancer no firmware de um motor de popa elétrico
-                controlado remotamente que utilizava o Stm32f103c8t6 e o rádio
-                RF24. Também trabalhei na criação de aplicativos WEB e Mobile.
-                Em seguida, trabalhei para esta mesma empresa como programador
-                fullstack freelancer utilizando ReactJS, React Native, NodeJS e
-                MongoDB. Também já trabalhei com NextJS e deploy em Kubernets. A
-                maior parte dos meus trabalhos foram com frontend utilizando
+                . Após o término da graduação trabalhei como freelancer no
+                firmware de um motor de popa elétrico controlado remotamente que
+                utilizava o Stm32f103c8t6 e o rádio RF24. Também trabalhei na
+                criação de aplicativos WEB e Mobile. Em seguida, trabalhei para
+                esta mesma empresa como programador fullstack freelancer
+                utilizando ReactJS, React Native, NodeJS e MongoDB. Também já
+                trabalhei com NextJS e deploy em Kubernets na Azure. A maior
+                parte dos meus trabalhos foram com frontend utilizando
                 TypeScript, mas tenho interesse em migrar para trabalhar com
                 backend e data science utilizando Python.
               </h3>

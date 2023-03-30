@@ -5,12 +5,12 @@ const Code: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Lucas | Code</title>
+        <title>Lucas | Implementação</title>
       </Head>
       <div className={styles.container}>
         <main className={styles.main}>
           <div className={styles.lightBox}>
-            <h1> Code </h1>
+            <h1> Implementação </h1>
           </div>
 
           <div className={styles.column}>
@@ -20,7 +20,7 @@ const Code: NextPage = () => {
               <a href="https://nextjs.org/" target="_blank">
                 NextJs
               </a>{" "}
-              que foi feito em cima do biblioteca{" "}
+              que tem como base a biblioteca{" "}
               <a href="https://react.dev/" target="_blank">
                 ReactJs
               </a>
@@ -28,7 +28,7 @@ const Code: NextPage = () => {
               <a href="https://sass-lang.com/" target="_blank">
                 Sass
               </a>{" "}
-              e para os recursos de login foi utilizado o{" "}
+              e para o recurso de login foi utilizado o{" "}
               <a href="https://next-auth.js.org/" target="_blank">
                 NextAuth
               </a>

@@ -32,12 +32,12 @@ const ProtectedFile: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Lucas | Protected File</title>
+        <title>Lucas | Arquivo Protegido</title>
       </Head>
       <div className={styles.container}>
         <main className={styles.main}>
           <div className={styles.lightBox}>
-            <h1> Code </h1>
+            <h1> Arquivo Protegido </h1>
           </div>
 
           <div className={styles.column}>

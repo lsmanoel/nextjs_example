@@ -17,13 +17,13 @@ import styles from "../../styles/components/Layout.module.scss";
 
 const links = [
   { href: "/", value: "Perfil", icon: faHouse },
-  { href: "/code", value: "Code", icon: faCode },
-  { href: "/tests", value: "Tests", icon: faVial },
+  { href: "/code", value: "Implementação", icon: faCode },
+  { href: "/tests", value: "Testes Unitários", icon: faVial },
   { href: "/cicd", value: "CI/CD", icon: faListCheck },
-  { href: "/auth", value: "Auth", icon: faUserCheck },
+  { href: "/auth", value: "Autenticação", icon: faUserCheck },
   {
     href: "/protected-file",
-    value: "File",
+    value: "Arquivo Protegido",
     icon: faFile,
     securityIcon: faFileShield,
   },
