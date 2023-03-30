@@ -53,7 +53,7 @@ export default function Header({
           type="button"
           onClick={(e) => {
             e.preventDefault();
-            window.location.href = "https://github.com/lsmanoel";
+            window.open("https://github.com/lsmanoel", "_blank");
           }}
         >
           <FontAwesomeIcon icon={faGithub} size="xl"></FontAwesomeIcon>
