@@ -59,7 +59,10 @@ export default function Messenger({
       `}
       onSubmit={submit}
     >
-      <label htmlFor="email">Seu email:</label>
+      <label htmlFor="email">
+        Seu email (essa mensagem será enviada para o administrador e uma cópia
+        para o seu email):
+      </label>
       <input
         type={"email"}
         placeholder={"Ensira o seu email..."}
