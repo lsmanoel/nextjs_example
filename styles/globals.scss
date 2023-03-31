@@ -19,6 +19,14 @@ body {
   transition-duration: var(--theme-transition-time);
   font-family: "Inter", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
     Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  h1,
+  h2,
+  h3 {
+    font-size: 100%;
+  }
+  &.font-small {
+    font-size: 70%;
+  }
 }
 
 #__next {
