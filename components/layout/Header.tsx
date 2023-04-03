@@ -53,7 +53,7 @@ export default function Header({
           type="button"
           onClick={(e) => {
             e.preventDefault();
-            window.open("https://github.com/lsmanoel", "_blank");
+            window.open("https://github.com/lsmanoel/nextjs_example", "_blank");
           }}
         >
           <FontAwesomeIcon icon={faGithub} size="xl"></FontAwesomeIcon>
