@@ -2,6 +2,8 @@ import React, { ReactElement, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import ReactTooltip from "react-tooltip";
+
 import { statusColor } from "lib/statusColor";
 
 import styles from "styles/components/Layout.module.scss";
