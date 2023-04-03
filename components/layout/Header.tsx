@@ -53,7 +53,18 @@ export default function Header({
           </Tippy>
         )}
 
-        <Tippy content={"Link para o projeto"}>
+        <Tippy
+          interactive={true}
+          content={
+            <div>
+              Link para o projeto. Ou pode acessar o meu perfil do github pelo
+              link:{" "}
+              <a href="https://github.com/lsmanoel" target="_blank">
+                github.com/lsmanoel
+              </a>
+            </div>
+          }
+        >
           <button
             className={styles.iconButton}
             type="button"
@@ -69,7 +80,7 @@ export default function Header({
           </button>
         </Tippy>
 
-        <Tippy content={"Eenvie uma mensagem para o Lucas"}>
+        <Tippy content={"Envie uma mensagem para o Lucas"}>
           <button
             className={`${buttonMsgEnable ? styles.buttonEnable : ""}
                       ${submitMsgStatus === "success" ? styles.success : ""}
