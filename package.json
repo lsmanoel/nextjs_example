@@ -36,6 +36,7 @@
     "react-build-status-badge": "^1.0.8",
     "react-code-blocks": "^0.0.9-0",
     "react-dom": "18.2.0",
+    "react-tooltip": "^5.10.4",
     "sass": "^1.52.3"
   },
   "devDependencies": {
