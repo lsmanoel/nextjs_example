@@ -59,9 +59,11 @@ export default function Header({
             <div>
               Link para o projeto. Ou pode acessar o meu perfil do github pelo
               link:{" "}
-              <a href="https://github.com/lsmanoel" target="_blank">
-                github.com/lsmanoel
-              </a>
+              <button>
+                <a href="https://github.com/lsmanoel" target="_blank">
+                  github.com/lsmanoel
+                </a>
+              </button>
             </div>
           }
         >
