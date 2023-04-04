@@ -1,5 +1,8 @@
 .LoginButton {
-  width: 500px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   button {
     display: flex;
     flex-direction: row;
@@ -17,7 +20,7 @@
     border-color: var(--outline-color);
     border-width: 2px;
     outline: none;
-    width: 100%;
+    width: 50%;
     span,
     svg {
       transition: color 0.5s ease;
@@ -66,6 +69,9 @@
         filter: drop-shadow(0 0 2px var(--error-color));
         color: var(--error-color);
       }
+    }
+    &.MobileLoginButton {
+      width: 100%;
     }
   }
 }
