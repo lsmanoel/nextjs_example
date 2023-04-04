@@ -45,19 +45,27 @@ const Home: NextPage = () => {
                 computação científica e processamento de vídeo (OpenCV). Também
                 já desenvolvi firmwares utilizando FreeRTOS. Sempre me
                 interessei por Inteligência Artificial. Fora da graduação fiz
-                cursos de TensorFlow, Keras e Dlib. No último semestre da
-                graduação, auxiliei a tese de doutorado de um professor
-                utilizando Python, Pandas e Matplotlib para processar dados
-                provenientes de sensores e apresentar os resultados desse
-                processamento. Nesse mesmo semestre, eu e mais três colegas,
-                ganhamos o prêmio do Desafio Ifsc Ideias Inovadoras. A ideia
-                consistia de um sistema baseado em visão computacional para
-                análise de tráfego de veículos e pedestres. O objetivo era, por
-                meio dos dados adquiridos, descobrir se há falta ou excesso na
-                iluminação pública. A ideia também consistia em diminuir ou
-                aumentar a iluminação de acordo com a demanda. Meu TCC foi sobre
-                Visão Computacional, utilizei Python, C++ e Linux embarcado com
-                o sistema ROS (Robot Operating System). Segue o{" "}
+                cursos de TensorFlow, Keras e Dlib. Desenvolvi um jogo baseado
+                em AI chamado{" "}
+                <a
+                  href="https://github.com/lsmanoel/MachineRevolution"
+                  target="_blank"
+                >
+                  Machine Revolution
+                </a>{" "}
+                . No último semestre da graduação, auxiliei a tese de doutorado
+                de um professor utilizando Python, Pandas e Matplotlib para
+                processar dados provenientes de sensores e apresentar os
+                resultados desse processamento. Nesse mesmo semestre, eu e mais
+                três colegas, ganhamos o prêmio do Desafio Ifsc Ideias
+                Inovadoras. A ideia consistia de um sistema baseado em visão
+                computacional para análise de tráfego de veículos e pedestres. O
+                objetivo era, por meio dos dados adquiridos, descobrir se há
+                falta ou excesso na iluminação pública. A ideia também consistia
+                em diminuir ou aumentar a iluminação de acordo com a demanda.
+                Meu TCC foi sobre Visão Computacional, utilizei Python, C++ e
+                Linux embarcado com o sistema ROS (Robot Operating System).
+                Segue o{" "}
                 <a
                   href="https://drive.google.com/file/d/1Ei1-eol5fQ9zp7CFsud-u0lzOeMOkwBS/view?usp=sharing"
                   target="_blank"
