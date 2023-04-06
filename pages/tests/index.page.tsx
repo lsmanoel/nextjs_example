@@ -1,13 +1,35 @@
 import { NextPage } from "next";
 import styles from "styles/pages/Page.module.scss";
 import Head from "next/head";
+import { useEffect, useState } from "react";
 const Tests: NextPage = () => {
+  const innerWidthThreshold = 1400;
+  const mobileWidthThreshold = 800;
+  const [innerWidth, getInnerWidth] = useState(innerWidthThreshold + 1);
+  const setInnerWidth = () => {
+    console.log(window.innerWidth);
+    getInnerWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    setInnerWidth();
+  }, []);
+  useEffect(() => {
+    window.addEventListener("resize", setInnerWidth);
+    return () => {
+      window.removeEventListener("resize", setInnerWidth);
+    };
+  }, [innerWidth, setInnerWidth]);
   return (
     <>
       <Head>
         <title>Lucas | Testes Unitários</title>
       </Head>
-      <div className={styles.container}>
+      <div
+        className={`${styles.container} ${
+          mobileWidthThreshold > innerWidth && styles.containerMobile
+        }`}
+      >
         <main className={styles.main}>
           <div className={styles.lightBox}>
             <h1> Testes Unitários </h1>

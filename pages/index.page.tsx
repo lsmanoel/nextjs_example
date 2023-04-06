@@ -5,6 +5,7 @@ import Head from "next/head";
 
 const Home: NextPage = () => {
   const innerWidthThreshold = 1400;
+  const mobileWidthThreshold = 800;
   const [innerWidth, getInnerWidth] = useState(innerWidthThreshold + 1);
   const setInnerWidth = () => {
     console.log(window.innerWidth);
@@ -26,7 +27,11 @@ const Home: NextPage = () => {
       <Head>
         <title>Lucas | Home</title>
       </Head>
-      <div className={styles.container}>
+      <div
+        className={`${styles.container} ${
+          mobileWidthThreshold > innerWidth && styles.containerMobile
+        }`}
+      >
         <main className={styles.main}>
           <div className={styles.lightBox}>
             <h1> Lucas Seara Manoel </h1>

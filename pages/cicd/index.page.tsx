@@ -7,6 +7,7 @@ import { BuildStatusBadge } from "react-build-status-badge";
 
 const CICD: NextPage = () => {
   const innerWidthThreshold = 1400;
+  const mobileWidthThreshold = 800;
   const [innerWidth, getInnerWidth] = useState(innerWidthThreshold + 1);
   const [code, setCode] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
@@ -14,14 +15,6 @@ const CICD: NextPage = () => {
     console.log(window.innerWidth);
     getInnerWidth(window.innerWidth);
   };
-
-  useEffect(() => {
-    fetch(
-      "https://raw.githubusercontent.com/lsmanoel/nextjs_example/main/.github/workflows/github-actions-CI.yml"
-    ).then((r) => {
-      r.text().then((d) => setCode(d));
-    });
-  }, []);
 
   useEffect(() => {
     code != "" && setLoading(false);
@@ -33,12 +26,24 @@ const CICD: NextPage = () => {
     };
   }, [innerWidth, setInnerWidth]);
 
+  useEffect(() => {
+    fetch(
+      "https://raw.githubusercontent.com/lsmanoel/nextjs_example/main/.github/workflows/github-actions-CI.yml"
+    ).then((r) => {
+      r.text().then((d) => setCode(d));
+    });
+  }, []);
+
   return (
     <>
       <Head>
         <title>Lucas | CI/CD</title>
       </Head>
-      <div className={styles.container}>
+      <div
+        className={`${styles.container} ${
+          mobileWidthThreshold > innerWidth && styles.containerMobile
+        }`}
+      >
         <main className={styles.main}>
           <div className={styles.lightBox}>
             <h1> CI/CD </h1>

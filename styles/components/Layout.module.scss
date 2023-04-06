@@ -15,7 +15,7 @@
   flex-direction: column;
   padding: 1em;
   white-space: nowrap;
-  z-index: 0;
+  z-index: 1;
   > hr {
     border: none;
     height: 2px;
@@ -23,6 +23,10 @@
     border-radius: 2px;
     width: 100%;
   }
+}
+.navMobile {
+  box-shadow: 4px 4px 4px 0 var(--shadow-color);
+  position: absolute;
 }
 
 .nav > .links {
@@ -200,7 +204,7 @@ header.header {
   // box-shadow: 0px 8px 8px 0 var(--shadow-color);
 
   display: flex;
-  z-index: 2;
+  z-index: 3;
   > div {
     box-shadow: 0px 8px 8px 0 var(--shadow-color);
     display: flex;

@@ -1,4 +1,4 @@
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -36,8 +36,30 @@ interface Props {
 export default function Navigation({ hidden }: Props): ReactElement {
   const router = useRouter();
   const { data: session } = useSession();
+
+  const innerWidthThreshold = 800;
+  const [innerWidth, getInnerWidth] = useState(innerWidthThreshold + 1);
+  const setInnerWidth = () => {
+    console.log(window.innerWidth);
+    getInnerWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    setInnerWidth();
+  }, []);
+  useEffect(() => {
+    window.addEventListener("resize", setInnerWidth);
+    return () => {
+      window.removeEventListener("resize", setInnerWidth);
+    };
+  }, [innerWidth, setInnerWidth]);
+
   return (
-    <nav className={`${styles.nav} ${hidden ? styles.hidden : ""}`}>
+    <nav
+      className={`${styles.nav} ${
+        innerWidth < innerWidthThreshold ? styles.navMobile : ""
+      } ${hidden ? styles.hidden : ""}`}
+    >
       <div className={styles.links}>
         {links.map(({ href, value, icon, securityIcon }) => (
           <Link key={href} href={href}>

@@ -25,6 +25,24 @@ const ProtectedFile: NextPage = () => {
   const { data: session } = useSession();
   const [name, setName] = useState<string>("");
 
+  const innerWidthThreshold = 1400;
+  const mobileWidthThreshold = 800;
+  const [innerWidth, getInnerWidth] = useState(innerWidthThreshold + 1);
+  const setInnerWidth = () => {
+    console.log(window.innerWidth);
+    getInnerWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    setInnerWidth();
+  }, []);
+  useEffect(() => {
+    window.addEventListener("resize", setInnerWidth);
+    return () => {
+      window.removeEventListener("resize", setInnerWidth);
+    };
+  }, [innerWidth, setInnerWidth]);
+
   useEffect(() => {
     session?.user?.name && setName(session.user.name);
   }, [session]);
@@ -34,7 +52,11 @@ const ProtectedFile: NextPage = () => {
       <Head>
         <title>Lucas | Arquivo Protegido</title>
       </Head>
-      <div className={styles.container}>
+      <div
+        className={`${styles.container} ${
+          mobileWidthThreshold > innerWidth && styles.containerMobile
+        }`}
+      >
         <main className={styles.main}>
           <div className={styles.lightBox}>
             <h1> Arquivo Protegido </h1>

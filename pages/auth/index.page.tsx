@@ -6,15 +6,37 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 
 import styles from "styles/pages/Auth.module.scss";
+import { useEffect, useState } from "react";
 
 const Auth: NextPage = () => {
   const { data: session } = useSession();
+  const innerWidthThreshold = 1400;
+  const mobileWidthThreshold = 800;
+  const [innerWidth, getInnerWidth] = useState(innerWidthThreshold + 1);
+  const setInnerWidth = () => {
+    console.log(window.innerWidth);
+    getInnerWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    setInnerWidth();
+  }, []);
+  useEffect(() => {
+    window.addEventListener("resize", setInnerWidth);
+    return () => {
+      window.removeEventListener("resize", setInnerWidth);
+    };
+  }, [innerWidth, setInnerWidth]);
   return (
     <>
       <Head>
         <title>Lucas | Autenticação</title>
       </Head>
-      <div className={styles.container}>
+      <div
+        className={`${styles.container} ${
+          mobileWidthThreshold > innerWidth && styles.containerMobile
+        }`}
+      >
         <main className={styles.main}>
           <div className={`${styles.box} ${styles.lightBox}`}>
             <h1> Autenticação </h1>
