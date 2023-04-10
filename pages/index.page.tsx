@@ -6,15 +6,14 @@ import Head from "next/head";
 const Home: NextPage = () => {
   const innerWidthThreshold = 1400;
   const mobileWidthThreshold = 800;
-  const [innerWidth, getInnerWidth] = useState(innerWidthThreshold + 1);
-  const [loadingWidth, setLoadingWidth] = useState(true);
+  const [innerWidth, getInnerWidth] = useState(0);
   const setInnerWidth = () => {
-    console.log(window.innerWidth);
+    // console.log(window.innerWidth);
     getInnerWidth(window.innerWidth);
   };
 
   useEffect(() => {
-    setLoadingWidth(false);
+    console.log(innerWidth);
     setInnerWidth();
   }, []);
   useEffect(() => {
@@ -34,7 +33,7 @@ const Home: NextPage = () => {
           mobileWidthThreshold > innerWidth && styles.containerMobile
         }`}
       >
-        {~loadingWidth && (
+        {innerWidth && (
           <main className={styles.main}>
             <div className={styles.lightBox}>
               <h1> Lucas Seara Manoel </h1>

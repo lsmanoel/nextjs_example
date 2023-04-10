@@ -10,9 +10,8 @@ import { useEffect, useState } from "react";
 
 const Auth: NextPage = () => {
   const { data: session } = useSession();
-  const innerWidthThreshold = 1400;
   const mobileWidthThreshold = 800;
-  const [innerWidth, getInnerWidth] = useState(innerWidthThreshold + 1);
+  const [innerWidth, getInnerWidth] = useState(0);
   const setInnerWidth = () => {
     console.log(window.innerWidth);
     getInnerWidth(window.innerWidth);
@@ -37,32 +36,34 @@ const Auth: NextPage = () => {
           mobileWidthThreshold > innerWidth && styles.containerMobile
         }`}
       >
-        <main className={styles.main}>
-          <div className={`${styles.box} ${styles.lightBox}`}>
-            <h1> Autenticação </h1>
-          </div>
-          {session && (
-            <div className={`${styles.box} ${styles.center}`}>
-              <div className={styles.userData}>
-                {session.user?.name && <span>{session.user?.name}</span>}
-                {session.user?.email && <span>{session.user?.email}</span>}
-              </div>
-              <hr />
-              {session.user?.image && (
-                <div className={styles.img}>
-                  <Image
-                    alt="avatar"
-                    src={session.user.image}
-                    width={120}
-                    height={120}
-                  />
-                </div>
-              )}
+        {innerWidth && (
+          <main className={styles.main}>
+            <div className={`${styles.box} ${styles.lightBox}`}>
+              <h1> Autenticação </h1>
             </div>
-          )}
-          <LoginButton providerName="google" icon={faGoogle} />
-          <LoginButton providerName="github" icon={faGithub} />
-        </main>
+            {session && (
+              <div className={`${styles.box} ${styles.center}`}>
+                <div className={styles.userData}>
+                  {session.user?.name && <span>{session.user?.name}</span>}
+                  {session.user?.email && <span>{session.user?.email}</span>}
+                </div>
+                <hr />
+                {session.user?.image && (
+                  <div className={styles.img}>
+                    <Image
+                      alt="avatar"
+                      src={session.user.image}
+                      width={120}
+                      height={120}
+                    />
+                  </div>
+                )}
+              </div>
+            )}
+            <LoginButton providerName="google" icon={faGoogle} />
+            <LoginButton providerName="github" icon={faGithub} />
+          </main>
+        )}
       </div>
     </>
   );

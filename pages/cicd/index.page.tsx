@@ -8,10 +8,9 @@ import { BuildStatusBadge } from "react-build-status-badge";
 const CICD: NextPage = () => {
   const innerWidthThreshold = 1400;
   const mobileWidthThreshold = 800;
-  const [innerWidth, getInnerWidth] = useState(innerWidthThreshold + 1);
+  const [innerWidth, getInnerWidth] = useState(0);
   const [code, setCode] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
-  const [loadingWidth, setLoadingWidth] = useState(true);
   const setInnerWidth = () => {
     getInnerWidth(window.innerWidth);
   };
@@ -20,7 +19,6 @@ const CICD: NextPage = () => {
     code != "" && setLoading(false);
   }, [code]);
   useEffect(() => {
-    setLoadingWidth(false);
     setInnerWidth();
   }, []);
   useEffect(() => {
@@ -48,7 +46,7 @@ const CICD: NextPage = () => {
           mobileWidthThreshold > innerWidth && styles.containerMobile
         }`}
       >
-        {~loadingWidth && (
+        {innerWidth && (
           <main className={styles.main}>
             <div className={styles.lightBox}>
               <h1> CI/CD </h1>
