@@ -55,7 +55,7 @@ const ProtectedFile: NextPage = () => {
           mobileWidthThreshold > innerWidth && styles.containerMobile
         }`}
       >
-        {innerWidth && (
+        {innerWidth ? (
           <main className={styles.main}>
             <div className={styles.lightBox}>
               <h1> Arquivo Protegido </h1>
@@ -110,6 +110,8 @@ const ProtectedFile: NextPage = () => {
               </ul>
             </div>
           </main>
+        ) : (
+          <></>
         )}
       </div>
     </>

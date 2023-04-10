@@ -8,7 +8,6 @@ const Home: NextPage = () => {
   const mobileWidthThreshold = 800;
   const [innerWidth, getInnerWidth] = useState(0);
   const setInnerWidth = () => {
-    // console.log(window.innerWidth);
     getInnerWidth(window.innerWidth);
   };
 
@@ -33,7 +32,7 @@ const Home: NextPage = () => {
           mobileWidthThreshold > innerWidth && styles.containerMobile
         }`}
       >
-        {innerWidth && (
+        {innerWidth ? (
           <main className={styles.main}>
             <div className={styles.lightBox}>
               <h1> Lucas Seara Manoel </h1>
@@ -135,6 +134,8 @@ const Home: NextPage = () => {
               </div>
             </div>
           </main>
+        ) : (
+          <></>
         )}
       </div>
     </>

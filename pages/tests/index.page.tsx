@@ -29,7 +29,7 @@ const Tests: NextPage = () => {
           mobileWidthThreshold > innerWidth && styles.containerMobile
         }`}
       >
-        {innerWidth && (
+        {innerWidth ? (
           <main className={styles.main}>
             <div className={styles.lightBox}>
               <h1> Testes Unitários </h1>
@@ -52,6 +52,8 @@ const Tests: NextPage = () => {
               </h3>
             </div>
           </main>
+        ) : (
+          <></>
         )}
       </div>
     </>

@@ -46,7 +46,7 @@ const CICD: NextPage = () => {
           mobileWidthThreshold > innerWidth && styles.containerMobile
         }`}
       >
-        {innerWidth && (
+        {innerWidth ? (
           <main className={styles.main}>
             <div className={styles.lightBox}>
               <h1> CI/CD </h1>
@@ -115,6 +115,8 @@ const CICD: NextPage = () => {
               </div>
             </div>
           </main>
+        ) : (
+          <></>
         )}
       </div>
     </>

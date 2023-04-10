@@ -29,7 +29,7 @@ const Code: NextPage = () => {
           mobileWidthThreshold > innerWidth && styles.containerMobile
         }`}
       >
-        {innerWidth && (
+        {innerWidth ? (
           <main className={styles.main}>
             <div className={styles.lightBox}>
               <h1> Implementação </h1>
@@ -58,6 +58,8 @@ const Code: NextPage = () => {
               </h3>
             </div>
           </main>
+        ) : (
+          <></>
         )}
       </div>
     </>

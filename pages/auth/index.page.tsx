@@ -36,7 +36,7 @@ const Auth: NextPage = () => {
           mobileWidthThreshold > innerWidth && styles.containerMobile
         }`}
       >
-        {innerWidth && (
+        {innerWidth ? (
           <main className={styles.main}>
             <div className={`${styles.box} ${styles.lightBox}`}>
               <h1> Autenticação </h1>
@@ -63,6 +63,8 @@ const Auth: NextPage = () => {
             <LoginButton providerName="google" icon={faGoogle} />
             <LoginButton providerName="github" icon={faGithub} />
           </main>
+        ) : (
+          <></>
         )}
       </div>
     </>
