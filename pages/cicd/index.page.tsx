@@ -20,6 +20,9 @@ const CICD: NextPage = () => {
     code != "" && setLoading(false);
   }, [code]);
   useEffect(() => {
+    setInnerWidth();
+  }, []);
+  useEffect(() => {
     window.addEventListener("resize", setInnerWidth);
     return () => {
       window.removeEventListener("resize", setInnerWidth);
