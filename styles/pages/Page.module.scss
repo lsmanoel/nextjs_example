@@ -100,6 +100,7 @@
   background-color: var(--primary-color);
   border-radius: 5px;
   box-shadow: 0px 4px 8px 0 var(--shadow-color);
+  // width: 30%;
 
   > div {
     display: flex;
@@ -113,6 +114,12 @@
       &:hover {
         text-shadow: 0 0 4px var(--selected-color);
       }
+    }
+  }
+  &.mobileDivCodeBlock {
+    width: 50%;
+    > div {
+      flex-direction: column;
     }
   }
 }

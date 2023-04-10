@@ -79,7 +79,12 @@ const CICD: NextPage = () => {
             </div>
             <div className={styles.column}>
               {!loading && (
-                <div className={styles.CodeBlock}>
+                <div
+                  className={`${styles.CodeBlock} ${
+                    mobileWidthThreshold > innerWidth &&
+                    styles.mobileDivCodeBlock
+                  }`}
+                >
                   <div>
                     <a
                       href="https://github.com/lsmanoel/nextjs_example/blob/main/.github/workflows/github-actions-CI.yml"
@@ -91,15 +96,17 @@ const CICD: NextPage = () => {
                       [![github-actions-ci](https://github.com/lsmanoel/curriculum/actions/workflows/github-actions-CI.yml/badge.svg)](https://github.com/lsmanoel/curriculum/actions/workflows/github-actions-CI.yml)
                     </BuildStatusBadge>
                   </div>
-                  <CodeBlock
-                    text={code}
-                    language="yml"
-                    showLineNumbers={true}
-                    theme={dracula}
-                    customStyle={{
-                      background: "none",
-                    }}
-                  />
+                  {mobileWidthThreshold < innerWidth && (
+                    <CodeBlock
+                      text={code}
+                      language="yml"
+                      showLineNumbers={true}
+                      theme={dracula}
+                      customStyle={{
+                        background: "none",
+                      }}
+                    />
+                  )}
                 </div>
               )}
             </div>
