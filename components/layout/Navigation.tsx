@@ -10,6 +10,7 @@ import {
   faUserCheck,
   faFile,
   faFileShield,
+  faComments,
 } from "@fortawesome/free-solid-svg-icons";
 import { useSession } from "next-auth/react";
 
@@ -21,6 +22,7 @@ const links = [
   { href: "/tests", value: "Testes Unitários", icon: faVial },
   { href: "/cicd", value: "CI/CD", icon: faListCheck },
   { href: "/auth", value: "Autenticação", icon: faUserCheck },
+  { href: "/chat", value: "Chat", icon: faComments },
   {
     href: "/protected-file",
     value: "Arquivo Protegido",
