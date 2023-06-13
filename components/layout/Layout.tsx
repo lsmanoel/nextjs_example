@@ -4,7 +4,7 @@ import { statusColor } from "lib/statusColor";
 import Footer from "./Footer";
 import Header from "./Header";
 import Navigation from "./Navigation";
-import Messenger from "./Messenger";
+import Messenger from "../messenger/Messenger";
 import styles from "styles/components/Layout.module.scss";
 import sendEmail from "lib/emailjs/sendEmail";
 
