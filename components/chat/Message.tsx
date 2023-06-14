@@ -1,4 +1,7 @@
 import { ReactElement } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+
 import styles from "styles/components/chat/Message.module.scss";
 
 interface MessageProps {
@@ -22,11 +25,22 @@ export default function Message(props: MessageProps): ReactElement {
         ${props.color == "error" ? styles.error : ""}
         `}
       >
-        <div className={styles.row}>
+        <div className={`${styles.row} ${styles.spaceBetween}`}>
           <h1>{props.name}</h1>
-          <h1>{props.date}</h1>
-          <button onClick={() => props.onUpdate()} />
-          <button onClick={() => props.onDelete()} />
+          <div className={styles.row}>
+            <h1>{props.date}</h1>
+            {!props.response && (
+              <div>
+                <button onClick={() => props.onUpdate()}>
+                  <FontAwesomeIcon icon={faPenToSquare}></FontAwesomeIcon>
+                </button>
+
+                <button onClick={() => props.onDelete()}>
+                  <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
+                </button>
+              </div>
+            )}
+          </div>
         </div>
         <div>
           <h2>{props.message}</h2>

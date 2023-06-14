@@ -33,14 +33,14 @@ export default function ChatBox(): ReactElement {
       <div id="messages">
         <Message
           name="Lucas"
-          date="24/10/1991"
+          date="24/10/1991 - 11:50"
           message="hello word"
           onUpdate={() => {}}
           onDelete={() => {}}
         />
         <Message
           name="Lucas"
-          date="24/10/1991"
+          date="24/10/1991 - 11:50"
           message="hello word"
           response={true}
           color="error"
@@ -49,7 +49,14 @@ export default function ChatBox(): ReactElement {
         />
         <Message
           name="Lucas"
-          date="24/10/1991"
+          date="24/10/1991 - 11:50"
+          message="hello word"
+          onUpdate={() => {}}
+          onDelete={() => {}}
+        />
+        <Message
+          name="Lucas"
+          date="24/10/1991 - 11:50"
           message="hello word"
           onUpdate={() => {}}
           onDelete={() => {}}
