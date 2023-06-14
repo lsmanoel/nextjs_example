@@ -4,6 +4,7 @@ import Head from "next/head";
 import styles from "styles/pages/Page.module.scss";
 import { useEffect, useState } from "react";
 import { BuildStatusBadge } from "react-build-status-badge";
+import ChatBox from "components/chat/ChatBox";
 
 const Chat: NextPage = () => {
   const innerWidthThreshold = 1400;
@@ -28,14 +29,6 @@ const Chat: NextPage = () => {
     };
   }, [innerWidth, setInnerWidth]);
 
-  useEffect(() => {
-    fetch(
-      "https://raw.githubusercontent.com/lsmanoel/nextjs_example/main/.github/workflows/github-actions-CI.yml"
-    ).then((r) => {
-      r.text().then((d) => setCode(d));
-    });
-  }, []);
-
   return (
     <>
       <Head>
@@ -51,14 +44,7 @@ const Chat: NextPage = () => {
             <div className={styles.lightBox}>
               <h1> Chat </h1>
             </div>
-
-            <div
-              className={
-                innerWidth > innerWidthThreshold ? styles.row : styles.column
-              }
-            >
-              <h2>Chat</h2>
-            </div>
+            <ChatBox />
           </main>
         ) : (
           <></>
