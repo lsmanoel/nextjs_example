@@ -42,7 +42,6 @@ export default function Navigation({ hidden }: Props): ReactElement {
   const innerWidthThreshold = 800;
   const [innerWidth, getInnerWidth] = useState(innerWidthThreshold + 1);
   const setInnerWidth = () => {
-    console.log(window.innerWidth);
     getInnerWidth(window.innerWidth);
   };
 

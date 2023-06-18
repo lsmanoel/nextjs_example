@@ -1,4 +1,4 @@
-import NextAuth from "next-auth";
+import NextAuth, { AuthOptions } from "next-auth";
 import Auth0Provider from "next-auth/providers/auth0";
 import FacebookProvider from "next-auth/providers/facebook";
 import GithubProvider from "next-auth/providers/github";
@@ -9,7 +9,8 @@ import TwitterProvider from "next-auth/providers/twitter";
 
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
-export default NextAuth({
+
+export const authOptions: AuthOptions = {
   // https://next-auth.js.org/configuration/providers
   providers: [
     // EmailProvider({
@@ -115,4 +116,6 @@ export default NextAuth({
 
   // Enable debug messages in the console if you are having problems
   debug: false,
-});
+};
+
+export default NextAuth(authOptions);

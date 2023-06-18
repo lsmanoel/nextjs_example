@@ -4,7 +4,7 @@ import { faTrash, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 
 import styles from "styles/components/chat/Message.module.scss";
 
-interface MessageProps {
+interface MessageBoxrops {
   name: string;
   date: string;
   message: string;
@@ -14,7 +14,7 @@ interface MessageProps {
   onDelete: () => void;
 }
 
-export default function Message(props: MessageProps): ReactElement {
+export default function MessageBox(props: MessageBoxrops): ReactElement {
   return (
     <div className={styles.row}>
       {!props.response && <div className={styles.Space}></div>}

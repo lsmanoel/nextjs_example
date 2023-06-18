@@ -2,21 +2,58 @@ import React, { ReactElement, useEffect, useRef, useState } from "react";
 import { statusColor } from "lib/statusColor";
 import styles from "styles/components/chat/ChatBox.module.scss";
 import { useSession } from "next-auth/react";
-import Message from "./Message";
+import MessageBox from "./MessageBox";
+import { getToken } from "next-auth/jwt";
+import { Message } from "lib/chat";
 
 export default function ChatBox(): ReactElement {
-  const { data: session } = useSession();
+  const session = useSession();
   const form = useRef<HTMLFormElement>(null);
   const [status, setStatus] = useState<statusColor>();
-  const [message, setMessage] = useState<string>("");
+  const [text, setText] = useState<string>("");
+  const [messages, setMessages] = useState<Message[]>([]);
 
   const clearForm = () => {
-    setMessage("");
+    setText("");
   };
 
-  const submit: React.FormEventHandler = async function (e) {
-    e.preventDefault();
+  const submit: React.FormEventHandler = async function (event) {
+    event.preventDefault();
+    postMessage(text);
   };
+
+  const getMessages = async () => {
+    const readRoute = "/api/chat/get/messages";
+    const response = await fetch(readRoute, {
+      method: "GET",
+    }).catch(() => null);
+    const messages = await response.json().catch(() => null);
+    setMessages(messages);
+  };
+
+  const postMessage = async (text: string) => {
+    if (text === "") return;
+    else {
+      const readRoute = "/api/chat/post/message";
+      const response = await fetch(readRoute, {
+        body: JSON.stringify({
+          text,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+      }).catch(() => null);
+      const sevedMessage: Message = await response.json().catch(() => null);
+      if (sevedMessage.text == text) {
+        setMessages([...messages, sevedMessage]);
+      }
+    }
+  };
+
+  useEffect(() => {
+    getMessages();
+  }, []);
 
   return (
     <form
@@ -31,44 +68,24 @@ export default function ChatBox(): ReactElement {
       onSubmit={submit}
     >
       <div id="messages">
-        <Message
-          name="Lucas"
-          date="24/10/1991 - 11:50"
-          message="hello word"
-          onUpdate={() => {}}
-          onDelete={() => {}}
-        />
-        <Message
-          name="Lucas"
-          date="24/10/1991 - 11:50"
-          message="hello word"
-          response={true}
-          color="error"
-          onUpdate={() => {}}
-          onDelete={() => {}}
-        />
-        <Message
-          name="Lucas"
-          date="24/10/1991 - 11:50"
-          message="hello word"
-          onUpdate={() => {}}
-          onDelete={() => {}}
-        />
-        <Message
-          name="Lucas"
-          date="24/10/1991 - 11:50"
-          message="hello word"
-          onUpdate={() => {}}
-          onDelete={() => {}}
-        />
+        {messages.map((message, index) => (
+          <MessageBox
+            key={index}
+            name={message.name}
+            date={message.created}
+            message={message.text}
+            onUpdate={() => {}}
+            onDelete={() => {}}
+          />
+        ))}
       </div>
       <textarea
         placeholder={"Ensira sua mensagem..."}
         name={"message"}
-        value={message}
+        value={text}
         rows={40}
         onInput={(e) => {
-          setMessage((e.target as HTMLInputElement).value);
+          setText((e.target as HTMLInputElement).value);
         }}
         required
       />
