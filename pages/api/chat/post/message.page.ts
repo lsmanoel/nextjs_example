@@ -1,8 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "pages/api/auth/[...nextauth].page";
-import db from "lib/firebase";
+import db from "lib/firebase/admin";
 import { Message } from "lib/chat";
+import { postChatMessageResultMsg } from "lib/requests-results";
 
 export default async function handler(
   req: NextApiRequest,
@@ -24,6 +25,6 @@ export default async function handler(
       res.status(400).json({ error });
     }
   } else {
-    res.status(401);
+    res.status(401).json({ error: postChatMessageResultMsg.BAD_CREDENTIALS });
   }
 }
