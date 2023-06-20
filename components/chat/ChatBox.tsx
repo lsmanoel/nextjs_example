@@ -3,8 +3,11 @@ import { statusColor } from "lib/statusColor";
 import styles from "styles/components/chat/ChatBox.module.scss";
 import { useSession } from "next-auth/react";
 import MessageBox from "./MessageBox";
-import { getToken } from "next-auth/jwt";
 import { Message } from "lib/chat";
+import { postChatMessageResultMsg } from "lib/requests-results";
+import { db } from "lib/firebase";
+import { collection, query, where, onSnapshot } from "firebase/firestore";
+import { getAuth, signInAnonymously } from "firebase/auth";
 
 export default function ChatBox(): ReactElement {
   const session = useSession();
@@ -12,6 +15,7 @@ export default function ChatBox(): ReactElement {
   const [status, setStatus] = useState<statusColor>();
   const [text, setText] = useState<string>("");
   const [messages, setMessages] = useState<Message[]>([]);
+  const [firebaseIsReady, setFirebaseIsReady] = useState(false);
 
   const clearForm = () => {
     setText("");
@@ -22,17 +26,9 @@ export default function ChatBox(): ReactElement {
     postMessage(text);
   };
 
-  const getMessages = async () => {
-    const readRoute = "/api/chat/get/messages";
-    const response = await fetch(readRoute, {
-      method: "GET",
-    }).catch(() => null);
-    const messages = await response.json().catch(() => null);
-    setMessages(messages);
-  };
-
-  const postMessage = async (text: string) => {
-    if (text === "") return;
+  const postMessage = async (text: string): Promise<string> => {
+    if (!session) return postChatMessageResultMsg.BAD_CREDENTIALS;
+    else if (text === "") return;
     else {
       const readRoute = "/api/chat/post/message";
       const response = await fetch(readRoute, {
@@ -44,15 +40,62 @@ export default function ChatBox(): ReactElement {
         },
         method: "POST",
       }).catch(() => null);
+
+      if (!response) {
+        return postChatMessageResultMsg.FETCH_ERROR;
+      } else if (response.status === 401) {
+        return postChatMessageResultMsg.BAD_CREDENTIALS;
+      } else if (response.status === 400) {
+        return postChatMessageResultMsg.BAD_REQUEST;
+      } else if (response.status !== 200) {
+        return postChatMessageResultMsg.UNKNOW_ERROR;
+      }
+
       const sevedMessage: Message = await response.json().catch(() => null);
       if (sevedMessage.text == text) {
         setMessages([...messages, sevedMessage]);
+        return postChatMessageResultMsg.SUCCESS;
+      } else {
+        return postChatMessageResultMsg.BAD_RESPONSE;
       }
     }
   };
 
+  async function firebaseSnapshot() {
+    const q = query(collection(db, session.data.user.email));
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const messages: Message[] = [];
+      querySnapshot.forEach((doc) => {
+        const message: Message = {
+          id: doc.data().text,
+          created: doc.data().created,
+          name: doc.data().name,
+          text: doc.data().text,
+        };
+        messages.push(message);
+      });
+      setMessages(messages);
+    });
+  }
   useEffect(() => {
-    getMessages();
+    db && firebaseIsReady && session.data?.user.email && firebaseSnapshot();
+  }, [db, session, firebaseIsReady]);
+
+  async function firebaseSignIn() {
+    const auth = getAuth();
+    await signInAnonymously(auth)
+      .then(() => {
+        setFirebaseIsReady(true);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log({ errorCode, errorMessage });
+        // ...
+      });
+  }
+  useEffect(() => {
+    firebaseSignIn();
   }, []);
 
   return (
