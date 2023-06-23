@@ -17,6 +17,7 @@ export default async function handler(
       const text = req.body.text;
       const { id } = await db.collection(session.user.email).add({
         created,
+        name,
         text,
       });
       const savedMessage: Message = { id, created, name, text };
