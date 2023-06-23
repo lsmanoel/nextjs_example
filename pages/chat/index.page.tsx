@@ -19,9 +19,11 @@ const Chat: NextPage = () => {
   useEffect(() => {
     code != "" && setLoading(false);
   }, [code]);
+
   useEffect(() => {
     setInnerWidth();
   }, []);
+
   useEffect(() => {
     window.addEventListener("resize", setInnerWidth);
     return () => {

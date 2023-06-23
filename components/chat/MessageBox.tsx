@@ -3,18 +3,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 
 import styles from "styles/components/chat/Message.module.scss";
+import { Message } from "lib/chat";
 
-interface MessageBoxrops {
-  name: string;
-  date: string;
-  message: string;
+interface MessageBoxProps {
+  message: Message;
   color?: string;
   response?: boolean;
   onUpdate: () => void;
   onDelete: () => void;
 }
 
-export default function MessageBox(props: MessageBoxrops): ReactElement {
+export default function MessageBox(props: MessageBoxProps): ReactElement {
   return (
     <div className={styles.row}>
       {!props.response && <div className={styles.Space}></div>}
@@ -26,9 +25,9 @@ export default function MessageBox(props: MessageBoxrops): ReactElement {
         `}
       >
         <div className={`${styles.row} ${styles.spaceBetween}`}>
-          <h1>{props.name}</h1>
+          <h1>{props.message.name}</h1>
           <div className={styles.row}>
-            <h1>{props.date}</h1>
+            <h1>{props.message.created}</h1>
             {!props.response && (
               <div>
                 <button onClick={() => props.onUpdate()}>
@@ -43,7 +42,7 @@ export default function MessageBox(props: MessageBoxrops): ReactElement {
           </div>
         </div>
         <div>
-          <h2>{props.message}</h2>
+          <h2>{props.message.text}</h2>
         </div>
       </div>
     </div>

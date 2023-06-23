@@ -61,6 +61,10 @@ export default function ChatBox(): ReactElement {
     }
   };
 
+  async function updateMessage(message: Message) {}
+
+  async function deleteMessage(message: Message) {}
+
   async function firebaseSnapshot() {
     const q = query(collection(db, session.data.user.email));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -114,11 +118,9 @@ export default function ChatBox(): ReactElement {
         {messages.map((message, index) => (
           <MessageBox
             key={index}
-            name={message.name}
-            date={message.created}
-            message={message.text}
-            onUpdate={() => {}}
-            onDelete={() => {}}
+            message={message}
+            onUpdate={() => updateMessage(message)}
+            onDelete={() => deleteMessage(message)}
           />
         ))}
       </div>

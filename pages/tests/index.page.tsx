@@ -6,19 +6,20 @@ const Tests: NextPage = () => {
   const mobileWidthThreshold = 800;
   const [innerWidth, getInnerWidth] = useState(0);
   const setInnerWidth = () => {
-    console.log(window.innerWidth);
     getInnerWidth(window.innerWidth);
   };
 
   useEffect(() => {
     setInnerWidth();
   }, []);
+
   useEffect(() => {
     window.addEventListener("resize", setInnerWidth);
     return () => {
       window.removeEventListener("resize", setInnerWidth);
     };
   }, [innerWidth, setInnerWidth]);
+
   return (
     <>
       <Head>
