@@ -4,7 +4,10 @@ import styles from "styles/components/chat/ChatBox.module.scss";
 import { useSession } from "next-auth/react";
 import MessageBox from "./MessageBox";
 import { Message } from "lib/chat";
-import { postChatMessageResultMsg } from "lib/requests-results";
+import {
+  postChatMessageResultMsg,
+  deleteChatMessageResultMsg,
+} from "lib/requests-results";
 import { db } from "lib/firebase";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { getAuth, signInAnonymously } from "firebase/auth";
@@ -63,18 +66,50 @@ export default function ChatBox(): ReactElement {
 
   async function updateMessage(message: Message) {}
 
-  async function deleteMessage(message: Message) {}
+  async function deleteMessage(message: Message) {
+    if (!session) return deleteChatMessageResultMsg.BAD_CREDENTIALS;
+    else {
+      const readRoute = `/api/chat/delete/${message.id}`;
+      const response = await fetch(readRoute, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "DELETE",
+      }).catch(() => null);
+
+      if (!response) {
+        return deleteChatMessageResultMsg.FETCH_ERROR;
+      } else if (response.status === 401) {
+        return deleteChatMessageResultMsg.BAD_CREDENTIALS;
+      } else if (response.status === 400) {
+        return deleteChatMessageResultMsg.BAD_REQUEST;
+      } else if (response.status !== 200) {
+        return deleteChatMessageResultMsg.UNKNOW_ERROR;
+      }
+
+      const deleted: boolean = await response.json().catch(() => null);
+      if (deleted) {
+        return deleteChatMessageResultMsg.SUCCESS;
+      } else {
+        return deleteChatMessageResultMsg.BAD_RESPONSE;
+      }
+    }
+  }
 
   async function firebaseSnapshot() {
-    const q = query(collection(db, session.data.user.email));
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+    const q = query(
+      collection(db, session.data.user.email),
+      where("deleted", "==", false)
+    );
+    onSnapshot(q, (querySnapshot) => {
       const messages: Message[] = [];
       querySnapshot.forEach((doc) => {
         const message: Message = {
-          id: doc.data().text,
+          id: doc.id,
           created: doc.data().created,
           name: doc.data().name,
           text: doc.data().text,
+          deleted: doc.data().deleted,
         };
         messages.push(message);
       });
@@ -115,7 +150,7 @@ export default function ChatBox(): ReactElement {
       onSubmit={submit}
     >
       <div id="messages">
-        {messages.map((message, index) => (
+        {messages.map((message: Message, index) => (
           <MessageBox
             key={index}
             message={message}

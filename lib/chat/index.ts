@@ -3,4 +3,5 @@ export interface Message {
   created: string;
   name: string;
   text: string;
+  deleted: boolean;
 }

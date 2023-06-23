@@ -22,6 +22,7 @@ export default async function handler(
         created: message.data().created,
         name: message.data().name,
         text: message.data().text,
+        deleted: message.data().deleted,
       }));
       res.status(200).json(messages);
     } catch (error) {

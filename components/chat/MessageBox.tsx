@@ -30,11 +30,11 @@ export default function MessageBox(props: MessageBoxProps): ReactElement {
             <h1>{props.message.created}</h1>
             {!props.response && (
               <div>
-                <button onClick={() => props.onUpdate()}>
+                <button type={"button"} onClick={() => props.onUpdate()}>
                   <FontAwesomeIcon icon={faPenToSquare}></FontAwesomeIcon>
                 </button>
 
-                <button onClick={() => props.onDelete()}>
+                <button type={"button"} onClick={() => props.onDelete()}>
                   <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
                 </button>
               </div>
