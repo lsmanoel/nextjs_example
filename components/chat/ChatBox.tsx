@@ -7,6 +7,7 @@ import { Message } from "lib/chat";
 import {
   postChatMessageResultMsg,
   deleteChatMessageResultMsg,
+  updateChatMessageResultMsg,
 } from "lib/requests-results";
 import { db } from "lib/firebase";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
@@ -18,6 +19,7 @@ export default function ChatBox(): ReactElement {
   const [status, setStatus] = useState<statusColor>();
   const [text, setText] = useState<string>("");
   const [messages, setMessages] = useState<Message[]>([]);
+  const [messageToUpdate, setMessageToUpdate] = useState<Message | null>(null);
   const [firebaseIsReady, setFirebaseIsReady] = useState(false);
 
   const clearForm = () => {
@@ -26,7 +28,21 @@ export default function ChatBox(): ReactElement {
 
   const submit: React.FormEventHandler = async function (event) {
     event.preventDefault();
-    postMessage(text);
+    if (messageToUpdate) {
+      updateMessage(text, messageToUpdate);
+      setUpdateMessage(messageToUpdate);
+    } else postMessage(text);
+  };
+
+  const setUpdateMessage = (message: Message) => {
+    if (message.id === messageToUpdate?.id) {
+      setMessageToUpdate(null);
+      setStatus("selected");
+    } else {
+      setMessageToUpdate(message);
+      setText(message.text);
+      setStatus("warn");
+    }
   };
 
   const postMessage = async (text: string): Promise<string> => {
@@ -64,9 +80,43 @@ export default function ChatBox(): ReactElement {
     }
   };
 
-  async function updateMessage(message: Message) {}
+  const updateMessage = async (
+    text: string,
+    message: Message
+  ): Promise<string> => {
+    if (!session) return updateChatMessageResultMsg.BAD_CREDENTIALS;
+    else {
+      const readRoute = `/api/chat/update/${message.id}`;
+      const response = await fetch(readRoute, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          text,
+        }),
+        method: "PUT",
+      }).catch(() => null);
 
-  async function deleteMessage(message: Message) {
+      if (!response) {
+        return updateChatMessageResultMsg.FETCH_ERROR;
+      } else if (response.status === 401) {
+        return updateChatMessageResultMsg.BAD_CREDENTIALS;
+      } else if (response.status === 400) {
+        return updateChatMessageResultMsg.BAD_REQUEST;
+      } else if (response.status !== 200) {
+        return updateChatMessageResultMsg.UNKNOW_ERROR;
+      }
+
+      const updatedText: string = await response.json().catch(() => null);
+      if (updatedText == text) {
+        return updateChatMessageResultMsg.SUCCESS;
+      } else {
+        return updateChatMessageResultMsg.BAD_RESPONSE;
+      }
+    }
+  };
+
+  const deleteMessage = async (message: Message): Promise<string> => {
     if (!session) return deleteChatMessageResultMsg.BAD_CREDENTIALS;
     else {
       const readRoute = `/api/chat/delete/${message.id}`;
@@ -94,7 +144,7 @@ export default function ChatBox(): ReactElement {
         return deleteChatMessageResultMsg.BAD_RESPONSE;
       }
     }
-  }
+  };
 
   async function firebaseSnapshot() {
     const q = query(
@@ -154,8 +204,9 @@ export default function ChatBox(): ReactElement {
           <MessageBox
             key={index}
             message={message}
-            onUpdate={() => updateMessage(message)}
+            onUpdate={() => setUpdateMessage(message)}
             onDelete={() => deleteMessage(message)}
+            color={messageToUpdate?.id == message.id && "warn"}
           />
         ))}
       </div>
@@ -172,6 +223,13 @@ export default function ChatBox(): ReactElement {
       <div className={styles.buttons}>
         <input type={"submit"} value={"Enviar"} />
         <input type={"button"} value={"Limpar"} onClick={() => clearForm()} />
+        {messageToUpdate && (
+          <input
+            type={"button"}
+            value={"Cancelar"}
+            onClick={() => setUpdateMessage(messageToUpdate)}
+          />
+        )}
       </div>
     </form>
   );

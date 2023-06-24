@@ -65,10 +65,19 @@
       text-shadow: 0 0 4px var(--warn-color);
     }
     .buttons > input,
-    textarea:focus {
+    textarea {
       color: var(--warn-color);
       border-color: var(--warn-color);
       box-shadow: 0 0 4px var(--warn-color);
+      border-style: solid;
+      border-width: 2px;
+      border-radius: 5px;
+    }
+    .buttons > input[type="submit"] {
+      &:hover {
+        color: var(--warn-color);
+        text-shadow: 0 0 2px var(--warn-color);
+      }
     }
   }
   &.error {
