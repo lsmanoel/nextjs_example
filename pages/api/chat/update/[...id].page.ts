@@ -4,7 +4,7 @@ import { authOptions } from "pages/api/auth/[...nextauth].page";
 import * as admin from "firebase-admin";
 import db from "lib/firebase/admin";
 import { updateChatMessageResultMsg } from "lib/requests-results";
-import { Message, OldMessage } from "lib/chat";
+import { OldMessage } from "lib/chat";
 
 export default async function handler(
   req: NextApiRequest,
