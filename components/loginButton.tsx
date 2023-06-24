@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession, signIn, signOut, SignInResponse } from "next-auth/react";
 
 import styles from "styles/components/LoginButton.module.scss";
 
@@ -17,7 +17,6 @@ export default function LoginButton({ icon, providerName }: Props) {
   const innerWidthThreshold = 1000;
   const [innerWidth, getInnerWidth] = useState(innerWidthThreshold + 1);
   const setInnerWidth = () => {
-    console.log(window.innerWidth);
     getInnerWidth(window.innerWidth);
   };
 
@@ -41,7 +40,7 @@ export default function LoginButton({ icon, providerName }: Props) {
         className={`${logged ? styles.buttonEnable : ""} ${
           innerWidth < innerWidthThreshold && styles.MobileLoginButton
         }`}
-        onClick={() => (logged ? signOut() : signIn(providerName))}
+        onClick={async () => (logged ? signOut() : signIn(providerName))}
       >
         {logged ? <span>Logado com</span> : <span>Logar com</span>}
         {icon && <FontAwesomeIcon icon={icon} />}

@@ -7,6 +7,8 @@ import TwitterProvider from "next-auth/providers/twitter";
 // import EmailProvider from "next-auth/providers/email"
 // import AppleProvider from "next-auth/providers/apple"
 
+import { saveUser } from "lib/user";
+
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
 
@@ -94,9 +96,10 @@ export const authOptions: AuthOptions = {
   // when an action is performed.
   // https://next-auth.js.org/configuration/callbacks
   callbacks: {
-    // async signIn({ user, account, profile, email, credentials }) {
-    //   return true;
-    // },
+    async signIn({ user, account, profile, email, credentials }) {
+      saveUser({ name: user.name, email: user.email, image: user.image });
+      return true;
+    },
     async redirect({ url, baseUrl }) {
       return url;
     },
