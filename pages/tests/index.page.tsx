@@ -2,6 +2,7 @@ import { NextPage } from "next";
 import styles from "styles/pages/Page.module.scss";
 import Head from "next/head";
 import { useEffect, useState } from "react";
+
 const Tests: NextPage = () => {
   const mobileWidthThreshold = 800;
   const [innerWidth, getInnerWidth] = useState(0);
