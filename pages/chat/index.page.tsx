@@ -43,10 +43,12 @@ const Chat: NextPage = () => {
       >
         {innerWidth ? (
           <main className={styles.main}>
-            <div className={styles.lightBox}>
+            {/* <div className={styles.lightBox}>
               <h1> Chat </h1>
+            </div> */}
+            <div className={styles.flexCenter}>
+              <ChatBox />
             </div>
-            <ChatBox />
           </main>
         ) : (
           <></>
