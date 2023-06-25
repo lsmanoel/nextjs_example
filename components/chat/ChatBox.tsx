@@ -12,6 +12,8 @@ import {
 import { db } from "lib/firebase";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { getAuth, signInAnonymously } from "firebase/auth";
+import UserBox from "./UserBox";
+import { User } from "lib/user";
 
 export default function ChatBox(): ReactElement {
   const session = useSession();
@@ -19,8 +21,12 @@ export default function ChatBox(): ReactElement {
   const [status, setStatus] = useState<statusColor>();
   const [text, setText] = useState<string>("");
   const [messages, setMessages] = useState<Message[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [messageToUpdate, setMessageToUpdate] = useState<Message | null>(null);
   const [firebaseIsReady, setFirebaseIsReady] = useState(false);
+  const [usersIsReady, setUsersIsReady] = useState(false);
+  const [emailKey, setEmailKey] = useState<string>("");
+  const [isAdm, setIsAdm] = useState(true);
 
   const clearForm = () => {
     setText("");
@@ -51,12 +57,13 @@ export default function ChatBox(): ReactElement {
     else {
       const readRoute = "/api/chat/post/message";
       const response = await fetch(readRoute, {
-        body: JSON.stringify({
-          text,
-        }),
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify({
+          text,
+          emailKey,
+        }),
         method: "POST",
       }).catch(() => null);
 
@@ -93,6 +100,7 @@ export default function ChatBox(): ReactElement {
         },
         body: JSON.stringify({
           text,
+          emailKey,
         }),
         method: "PUT",
       }).catch(() => null);
@@ -146,11 +154,8 @@ export default function ChatBox(): ReactElement {
     }
   };
 
-  async function firebaseSnapshot() {
-    const q = query(
-      collection(db, session.data.user.email),
-      where("deleted", "==", false)
-    );
+  async function messagesSnapshot() {
+    const q = query(collection(db, emailKey), where("deleted", "==", false));
     onSnapshot(q, (querySnapshot) => {
       const messages: Message[] = [];
       querySnapshot.forEach((doc) => {
@@ -158,6 +163,7 @@ export default function ChatBox(): ReactElement {
           id: doc.id,
           created: doc.data().created,
           name: doc.data().name,
+          email: doc.data().email,
           text: doc.data().text,
           deleted: doc.data().deleted,
         };
@@ -167,8 +173,30 @@ export default function ChatBox(): ReactElement {
     });
   }
   useEffect(() => {
-    db && firebaseIsReady && session.data?.user.email && firebaseSnapshot();
-  }, [db, session, firebaseIsReady]);
+    db && firebaseIsReady && emailKey && messagesSnapshot();
+  }, [db, emailKey, firebaseIsReady]);
+
+  async function usersSnapshot() {
+    const q = query(collection(db, "users"));
+    onSnapshot(q, (querySnapshot) => {
+      const users: User[] = [];
+      querySnapshot.forEach((doc) => {
+        const user: User = {
+          id: doc.id,
+          created: doc.data().created,
+          name: doc.data().name,
+          email: doc.data().email,
+          image: doc.data().image,
+        };
+        users.push(user);
+      });
+      setUsers(users);
+      !usersIsReady && setUsersIsReady(true);
+    });
+  }
+  useEffect(() => {
+    isAdm && db && firebaseIsReady && usersSnapshot();
+  }, [db, firebaseIsReady, isAdm]);
 
   async function firebaseSignIn() {
     const auth = getAuth();
@@ -180,18 +208,29 @@ export default function ChatBox(): ReactElement {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log({ errorCode, errorMessage });
-        // ...
       });
   }
   useEffect(() => {
     firebaseSignIn();
   }, []);
 
+  useEffect(() => {
+    if (session.data?.user.email === process.env.EMAIL_ADM) {
+      if (users[0]) setEmailKey(users[0].email);
+      else setEmailKey(session.data?.user.email);
+      setIsAdm(true);
+    } else {
+      setEmailKey(session.data?.user.email);
+      setIsAdm(false);
+    }
+  }, [session, usersIsReady]);
+
   return (
     <form
       ref={form}
       role="form"
       className={`
+      ${!isAdm ? styles.noAdm : ""}
       ${styles.ChatBox}
       ${status === "success" ? styles.success : ""}
       ${status === "warn" ? styles.warn : ""}
@@ -199,37 +238,57 @@ export default function ChatBox(): ReactElement {
       `}
       onSubmit={submit}
     >
-      <div id="messages">
-        {messages.map((message: Message, index) => (
-          <MessageBox
-            key={index}
-            message={message}
-            onUpdate={() => setUpdateMessage(message)}
-            onDelete={() => deleteMessage(message)}
-            color={messageToUpdate?.id == message.id && "warn"}
-          />
-        ))}
-      </div>
-      <textarea
-        placeholder={"Ensira sua mensagem..."}
-        name={"message"}
-        value={text}
-        rows={40}
-        onInput={(e) => {
-          setText((e.target as HTMLInputElement).value);
-        }}
-        required
-      />
-      <div className={styles.buttons}>
-        <input type={"submit"} value={"Enviar"} />
-        <input type={"button"} value={"Limpar"} onClick={() => clearForm()} />
-        {messageToUpdate && (
-          <input
-            type={"button"}
-            value={"Cancelar"}
-            onClick={() => setUpdateMessage(messageToUpdate)}
-          />
+      <div className={styles.row}>
+        <div id="messages">
+          {messages.map((message: Message, index) => (
+            <MessageBox
+              key={index}
+              message={message}
+              response={message.email !== session.data?.user.email}
+              onUpdate={() => setUpdateMessage(message)}
+              onDelete={() => deleteMessage(message)}
+              color={messageToUpdate?.id == message.id && "warn"}
+            />
+          ))}
+        </div>
+
+        {isAdm && (
+          <div id="users">
+            {users.map((user: User, index) => (
+              <>
+                <UserBox
+                  key={index}
+                  user={user}
+                  onClick={() => setEmailKey(user.email)}
+                  color={emailKey == user.email && "success"}
+                />
+              </>
+            ))}
+          </div>
         )}
+      </div>
+      <div className={styles.inputPanel}>
+        <textarea
+          placeholder={"Ensira sua mensagem..."}
+          name={"message"}
+          value={text}
+          rows={40}
+          onInput={(e) => {
+            setText((e.target as HTMLInputElement).value);
+          }}
+          required
+        />
+        <div className={styles.buttons}>
+          <input type={"submit"} value={"Enviar"} />
+          <input type={"button"} value={"Limpar"} onClick={() => clearForm()} />
+          {messageToUpdate && (
+            <input
+              type={"button"}
+              value={"Cancelar"}
+              onClick={() => setUpdateMessage(messageToUpdate)}
+            />
+          )}
+        </div>
       </div>
     </form>
   );

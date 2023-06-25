@@ -2,7 +2,7 @@ import { ReactElement } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 
-import styles from "styles/components/chat/Message.module.scss";
+import styles from "styles/components/chat/MessageBox.module.scss";
 import { Message } from "lib/chat";
 
 interface MessageBoxProps {
@@ -18,7 +18,7 @@ export default function MessageBox(props: MessageBoxProps): ReactElement {
     <div className={styles.row}>
       {!props.response && <div className={styles.Space}></div>}
       <div
-        className={`${styles.Message}
+        className={`${styles.MessageBox}
         ${props.color == "success" ? styles.success : ""} 
         ${props.color == "warn" ? styles.warn : ""}
         ${props.color == "error" ? styles.error : ""}

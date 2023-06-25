@@ -10,19 +10,23 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const session = await getServerSession(req, res, authOptions);
-  if (session) {
+  if (session.user) {
     try {
       const name = session.user.name;
+      const email = session.user.email;
       const created = new Date().toISOString();
       const text = req.body.text;
+      const emailKey = req.body.emailKey;
       const deleted = false;
-      const { id } = await db.collection(session.user.email).add({
+      console.log(emailKey);
+      const { id } = await db.collection(emailKey).add({
         created,
         name,
+        email,
         text,
         deleted,
       });
-      const savedMessage: Message = { id, created, name, text, deleted };
+      const savedMessage: Message = { id, created, name, email, text, deleted };
       res.status(200).json(savedMessage);
     } catch (error) {
       res.status(400).json({ error });

@@ -9,7 +9,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const session = await getServerSession(req, res, authOptions);
-  if (!session) {
+  if (!session.user) {
     res.status(401).json({ error: deleteChatMessageResultMsg.BAD_CREDENTIALS });
   } else {
     if (!Array.isArray(req.query.id) || !req.query.id) {

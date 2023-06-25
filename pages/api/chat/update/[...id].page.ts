@@ -11,7 +11,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const session = await getServerSession(req, res, authOptions);
-  if (!session) {
+  if (!session.user) {
     res.status(401).json({ error: updateChatMessageResultMsg.BAD_CREDENTIALS });
   } else {
     if (!Array.isArray(req.query.id) || !req.query.id) {
@@ -19,10 +19,9 @@ export default async function handler(
     } else {
       try {
         const text = req.body.text;
+        const emailKey = req.body.emailKey;
         const updatedDate = new Date().toISOString();
-        const messageRef = db
-          .collection(session.user.email)
-          .doc(req.query.id[0]);
+        const messageRef = db.collection(emailKey).doc(req.query.id[0]);
 
         await db.runTransaction(async (t) => {
           const oldText = (await t.get(messageRef)).data().text;

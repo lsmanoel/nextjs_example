@@ -1,0 +1,82 @@
+.row {
+  display: flex;
+  flex-direction: row;
+}
+.spaceBetween {
+  justify-content: space-between;
+  width: 100%;
+}
+.Space {
+  width: 25%;
+}
+.UserBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: var(--primary-dark-1-color);
+  padding: 1%;
+  margin: 1% 1% 0% 1%;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 5px;
+
+  h1,
+  h2 {
+    margin: 0 5px 10px 0;
+  }
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    svg {
+      color: var(--selected-color);
+    }
+    &:hover {
+      svg {
+        transform: scale(1.2);
+      }
+    }
+  }
+  &.success {
+    color: var(--success-color);
+    border-color: var(--success-color);
+    h1,
+    h2 {
+      color: var(--success-color);
+      text-shadow: 0 0 2px var(--success-color);
+    }
+    button {
+      svg {
+        color: var(--success-color);
+      }
+    }
+  }
+  &.warn {
+    color: var(--warn-color);
+    border-color: var(--warn-color);
+    h1,
+    h2 {
+      color: var(--warn-color);
+      text-shadow: 0 0 2px var(--warn-color);
+    }
+    button {
+      svg {
+        color: var(--warn-color);
+      }
+    }
+  }
+  &.error {
+    color: var(--error-color);
+    border-color: var(--error-color);
+    h1,
+    h2 {
+      color: var(--error-color);
+      text-shadow: 0 0 2px var(--error-color);
+    }
+    button {
+      svg {
+        color: var(--error-color);
+      }
+    }
+  }
+}
