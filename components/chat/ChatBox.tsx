@@ -261,6 +261,7 @@ export default function ChatBox(): ReactElement {
                   user={user}
                   onClick={() => setEmailKey(user.email)}
                   color={emailKey == user.email && "success"}
+                  selected={emailKey == user.email}
                 />
               </>
             ))}

@@ -1,6 +1,7 @@
 import { ReactElement } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import { format } from "date-fns";
 
 import styles from "styles/components/chat/MessageBox.module.scss";
 import { Message } from "lib/chat";
@@ -14,6 +15,7 @@ interface MessageBoxProps {
 }
 
 export default function MessageBox(props: MessageBoxProps): ReactElement {
+  const created = new Date(props.message.created);
   return (
     <div className={styles.row}>
       {!props.response && <div className={styles.Space}></div>}
@@ -27,7 +29,10 @@ export default function MessageBox(props: MessageBoxProps): ReactElement {
         <div className={`${styles.row} ${styles.spaceBetween}`}>
           <h1>{props.message.name}</h1>
           <div className={styles.row}>
-            <h1>{props.message.created}</h1>
+            <div id="date">
+              <h1>{format(created, "dd/LL/yy")}</h1>
+              <h1>{format(created, "HH:mm:ss")}</h1>
+            </div>
             {!props.response && (
               <div>
                 <button type={"button"} onClick={() => props.onUpdate()}>
