@@ -93,14 +93,13 @@ export default function ChatBox(): ReactElement {
   ): Promise<string> => {
     if (!session) return updateChatMessageResultMsg.BAD_CREDENTIALS;
     else {
-      const readRoute = `/api/chat/update/${message.id}`;
+      const readRoute = `/api/chat/update/${emailKey}/${message.id}`;
       const response = await fetch(readRoute, {
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           text,
-          emailKey,
         }),
         method: "PUT",
       }).catch(() => null);
@@ -127,7 +126,7 @@ export default function ChatBox(): ReactElement {
   const deleteMessage = async (message: Message): Promise<string> => {
     if (!session) return deleteChatMessageResultMsg.BAD_CREDENTIALS;
     else {
-      const readRoute = `/api/chat/delete/${message.id}`;
+      const readRoute = `/api/chat/delete/${emailKey}/${message.id}`;
       const response = await fetch(readRoute, {
         headers: {
           "Content-Type": "application/json",
@@ -238,7 +237,7 @@ export default function ChatBox(): ReactElement {
       `}
       onSubmit={submit}
     >
-      <div className={styles.row}>
+      <div id="displayPanel">
         <div id="messages">
           {messages.map((message: Message, index) => (
             <MessageBox
@@ -255,20 +254,18 @@ export default function ChatBox(): ReactElement {
         {isAdm && (
           <div id="users">
             {users.map((user: User, index) => (
-              <>
-                <UserBox
-                  key={index}
-                  user={user}
-                  onClick={() => setEmailKey(user.email)}
-                  color={emailKey == user.email && "success"}
-                  selected={emailKey == user.email}
-                />
-              </>
+              <UserBox
+                key={index}
+                user={user}
+                onClick={() => setEmailKey(user.email)}
+                color={emailKey == user.email && "success"}
+                selected={emailKey == user.email}
+              />
             ))}
           </div>
         )}
       </div>
-      <div className={styles.inputPanel}>
+      <div id="inputPanel">
         <textarea
           placeholder={"Ensira sua mensagem..."}
           name={"message"}
