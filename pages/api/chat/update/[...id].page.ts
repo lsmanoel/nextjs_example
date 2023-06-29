@@ -11,17 +11,18 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const session = await getServerSession(req, res, authOptions);
-  if (!session.user) {
+  if (!session?.user?.email) {
     res.status(401).json({ error: updateChatMessageResultMsg.BAD_CREDENTIALS });
   } else {
-    if (!Array.isArray(req.query.id) || !req.query.id) {
+    if (!req.query?.id[0] || !req.query?.id[1]) {
       res.status(400).json({ error: updateChatMessageResultMsg.BAD_REQUEST });
     } else {
       try {
         const text = req.body.text;
-        const emailKey = req.body.emailKey;
+        const emailKey = req.query.id[0];
+        const docId = req.query.id[1];
         const updatedDate = new Date().toISOString();
-        const messageRef = db.collection(emailKey).doc(req.query.id[0]);
+        const messageRef = db.collection(emailKey).doc(docId);
 
         await db.runTransaction(async (t) => {
           const oldText = (await t.get(messageRef)).data().text;
@@ -30,12 +31,13 @@ export default async function handler(
             updatedDate,
           };
 
+          const notifications = (await t.get(messageRef)).data().notifications;
           t.update(messageRef, {
             text,
             oldTexts: admin.firestore.FieldValue.arrayUnion(oldMessage),
+            notifications: notifications ? notifications + 1 : 1,
           });
         });
-
         res.status(200).json({ text });
       } catch (error) {
         res.status(400).json({ error });

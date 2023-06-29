@@ -9,15 +9,17 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const session = await getServerSession(req, res, authOptions);
-  if (!session.user) {
+  if (!session?.user?.email) {
     res.status(401).json({ error: deleteChatMessageResultMsg.BAD_CREDENTIALS });
   } else {
-    if (!Array.isArray(req.query.id) || !req.query.id) {
+    if (!req.query?.id[0] || !req.query?.id[1]) {
       res.status(400).json({ error: deleteChatMessageResultMsg.BAD_REQUEST });
     } else {
       try {
+        const emailKey = req.query.id[0];
+        const docId = req.query.id[1];
         const deleted = true;
-        await db.collection(session.user.email).doc(req.query.id[0]).update({
+        await db.collection(emailKey).doc(docId).update({
           deleted,
         });
         res.status(200).json({ deleted });
