@@ -55,6 +55,11 @@
       transition: 200ms ease;
       transition-property: opacity, width, padding;
     }
+    span[id="badge"] {
+      position: absolute;
+      top: 0;
+      left: 8px;
+    }
     &:hover {
       svg {
         transform: scale(1.2);
@@ -115,6 +120,31 @@
         margin-right: -0.6em;
       }
     }
+    &.oneDigits {
+      svg {
+        margin-right: 10px;
+      }
+    }
+    &.twoDigits {
+      svg {
+        margin-right: 20px;
+      }
+    }
+    &.threeDigits {
+      svg {
+        margin-right: 30px;
+      }
+    }
+    &.fourDigits {
+      svg {
+        margin-right: 40px;
+      }
+    }
+    &.fiveDigits {
+      svg {
+        margin-right: 50px;
+      }
+    }
     &.selected {
       color: var(--selected-color);
       text-shadow: 0 0 2px var(--selected-color);
@@ -154,7 +184,7 @@
   .header > :not(button) {
     display: none;
   }
-  .navItem > span {
+  .navItem > span[id="value"] {
     max-width: 0;
     padding: 0;
   }

@@ -12,7 +12,6 @@ const Home: NextPage = () => {
   };
 
   useEffect(() => {
-    console.log(innerWidth);
     setInnerWidth();
   }, []);
   useEffect(() => {

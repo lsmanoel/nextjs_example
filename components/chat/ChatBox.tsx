@@ -2,7 +2,7 @@ import React, { ReactElement, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { statusColor } from "lib/statusColor";
 import styles from "styles/components/chat/ChatBox.module.scss";
-import { useSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import MessageBox from "./MessageBox";
 import { Message } from "lib/chat";
 import {
@@ -20,9 +20,8 @@ import {
   getDocs,
   orderBy,
 } from "firebase/firestore";
-import { getAuth, signInAnonymously, signOut } from "firebase/auth";
 import UserBox from "./UserBox";
-import { User, getUserId } from "lib/user";
+import { User } from "lib/user";
 
 export default function ChatBox(): ReactElement {
   const router = useRouter();
@@ -168,26 +167,28 @@ export default function ChatBox(): ReactElement {
   };
 
   async function messagesSnapshot() {
-    const q = query(
-      collection(db, "chat", userId || session.data.chatId, "messages"),
-      orderBy("created", "asc"),
-      where("deleted", "==", false)
-    );
-    onSnapshot(q, (querySnapshot) => {
-      const messages: Message[] = [];
-      querySnapshot.forEach((doc) => {
-        const message: Message = {
-          id: doc.id,
-          created: doc.data().created,
-          name: doc.data().name,
-          email: doc.data().email,
-          text: doc.data().text,
-          deleted: doc.data().deleted,
-        };
-        messages.push(message);
+    if (session.data?.chatId) {
+      const q = query(
+        collection(db, "chat", userId || session.data.chatId, "messages"),
+        orderBy("created", "asc"),
+        where("deleted", "==", false)
+      );
+      onSnapshot(q, (querySnapshot) => {
+        const messages: Message[] = [];
+        querySnapshot.forEach((doc) => {
+          const message: Message = {
+            id: doc.id,
+            created: doc.data().created,
+            name: doc.data().name,
+            email: doc.data().email,
+            text: doc.data().text,
+            deleted: doc.data().deleted,
+          };
+          messages.push(message);
+        });
+        setMessages(messages);
       });
-      setMessages(messages);
-    });
+    }
   }
   useEffect(() => {
     db && messagesSnapshot();

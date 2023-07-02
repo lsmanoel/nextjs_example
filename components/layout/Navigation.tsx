@@ -22,12 +22,11 @@ const links = [
   { href: "/tests", value: "Testes Unitários", icon: faVial },
   { href: "/cicd", value: "CI/CD", icon: faListCheck },
   { href: "/auth", value: "Autenticação", icon: faUserCheck },
-  { href: "/chat", value: "Chat", icon: faComments },
   {
-    href: "/protected-file",
-    value: "Arquivo Protegido",
-    icon: faFile,
-    securityIcon: faFileShield,
+    href: "/chat",
+    value: "Chat",
+    icon: faComments,
+    securityIcon: faComments,
   },
 ];
 
@@ -38,7 +37,7 @@ interface Props {
 export default function Navigation({ hidden }: Props): ReactElement {
   const router = useRouter();
   const { data: session } = useSession();
-
+  const [notifications, setNotifications] = useState<number>(1);
   const innerWidthThreshold = 800;
   const [innerWidth, getInnerWidth] = useState(innerWidthThreshold + 1);
   const setInnerWidth = () => {
@@ -65,14 +64,29 @@ export default function Navigation({ hidden }: Props): ReactElement {
         {links.map(({ href, value, icon, securityIcon }) => (
           <Link key={href} href={href}>
             <a
-              className={`${styles.navItem}
-              ${href === router.pathname ? styles.selected : ""}
+              className={`${styles.navItem} 
+              ${
+                notifications.toString().length === 1 && notifications > 0
+                  ? styles.oneDigits
+                  : ""
+              }
+              ${notifications.toString().length === 2 ? styles.twoDigits : ""}
+              ${notifications.toString().length === 3 ? styles.threeDigits : ""}
+              ${notifications.toString().length === 4 ? styles.fourDigits : ""}
+              ${notifications.toString().length === 5 ? styles.fiveDigits : ""}
+              ${
+                href === router.pathname ||
+                `${href}/protected` === router.pathname
+                  ? styles.selected
+                  : ""
+              }
               ${!!securityIcon && !session ? styles.error : ""}`}
             >
               <FontAwesomeIcon
                 icon={session ? icon : securityIcon || icon}
               ></FontAwesomeIcon>
-              <span>{value}</span>
+              {notifications > 0 && <span id="badge">{notifications}</span>}
+              <span id="value">{value}</span>
             </a>
           </Link>
         ))}

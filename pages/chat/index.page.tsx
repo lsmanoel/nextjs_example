@@ -5,6 +5,24 @@ import styles from "styles/pages/Page.module.scss";
 import { useEffect, useState } from "react";
 import { BuildStatusBadge } from "react-build-status-badge";
 import ChatBox from "components/chat/ChatBox";
+import { getSession } from "next-auth/react";
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+  console.log(session);
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/chat/protected",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: { session },
+  };
+}
 
 const Chat: NextPage = () => {
   const innerWidthThreshold = 1400;

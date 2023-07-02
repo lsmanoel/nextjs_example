@@ -34,35 +34,32 @@ export default function LoginButton({ icon, providerName }: Props) {
     getInnerWidth(window.innerWidth);
   };
 
-  async function signInFirebase(): Promise<boolean> {
+  async function signInFirebase() {
     if (session.data?.user?.email)
-      return await signInAnonymously(auth)
+      await signInAnonymously(auth)
         .then(async () => {
-          if (session.data.chatId) {
-            return true;
-          } else {
+          if (!session.data.chatId) {
             signOutFirebase(auth);
-            return false;
           }
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
           console.log({ errorCode, errorMessage });
-          return false;
         });
-    else return false;
   }
 
   async function singIn() {
     await singInNextAuth(providerName);
-    const status = await signInFirebase();
-    if (!status) signOut();
   }
 
+  useEffect(() => {
+    signInFirebase();
+  }, [session]);
+
   async function signOut() {
-    signOutFirebase(auth);
-    signOutNextAuth();
+    await signOutFirebase(auth);
+    await signOutNextAuth();
   }
 
   useEffect(() => {
