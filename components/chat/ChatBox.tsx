@@ -33,7 +33,6 @@ export default function ChatBox(): ReactElement {
   const [messages, setMessages] = useState<Message[]>([]);
   const [users, setUsers] = useState<User[]>([]);
   const [messageToUpdate, setMessageToUpdate] = useState<Message | null>(null);
-  const [firebaseIsReady, setFirebaseIsReady] = useState(false);
   const [usersIsReady, setUsersIsReady] = useState(false);
   const [userId, setUserId] = useState<string>("");
   const [isAdm, setIsAdm] = useState(true);
@@ -191,8 +190,8 @@ export default function ChatBox(): ReactElement {
     });
   }
   useEffect(() => {
-    db && firebaseIsReady && messagesSnapshot();
-  }, [db, userId, firebaseIsReady]);
+    db && messagesSnapshot();
+  }, [db, userId]);
 
   async function usersSnapshot() {
     const q = query(collection(db, "users"), orderBy("lastPost", "desc"));
@@ -213,31 +212,8 @@ export default function ChatBox(): ReactElement {
     });
   }
   useEffect(() => {
-    isAdm && db && firebaseIsReady && usersSnapshot();
-  }, [db, firebaseIsReady, isAdm]);
-
-  async function firebaseSignIn() {
-    const auth = getAuth();
-    await signInAnonymously(auth)
-      .then(async () => {
-        if (session.data.chatId) {
-          setFirebaseIsReady(true);
-        } else {
-          signOut(auth);
-          setFirebaseIsReady(false);
-          router.push("/auth");
-        }
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log({ errorCode, errorMessage });
-        setFirebaseIsReady(false);
-      });
-  }
-  useEffect(() => {
-    if (session.data?.user?.email) firebaseSignIn();
-  }, [session]);
+    isAdm && db && usersSnapshot();
+  }, [db, isAdm]);
 
   useEffect(() => {
     if (session.data?.user?.email)
