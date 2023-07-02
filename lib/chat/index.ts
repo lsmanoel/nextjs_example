@@ -1,10 +1,12 @@
+import { FieldValue, Timestamp } from "firebase/firestore";
+
 export interface OldMessage {
-  updatedDate: string;
+  updated: FieldValue | number | string;
   text: string;
 }
 export interface Message {
   id: string;
-  created: string;
+  created: Timestamp | FieldValue | number | string;
   name: string;
   email: string;
   text: string;

@@ -5,6 +5,7 @@ import { format } from "date-fns";
 
 import styles from "styles/components/chat/MessageBox.module.scss";
 import { Message } from "lib/chat";
+import { Timestamp } from "firebase/firestore";
 
 interface MessageBoxProps {
   message: Message;
@@ -15,7 +16,7 @@ interface MessageBoxProps {
 }
 
 export default function MessageBox(props: MessageBoxProps): ReactElement {
-  const created = new Date(props.message.created);
+  const created = new Date((props.message.created as Timestamp).toDate());
   return (
     <div className={styles.row}>
       {!props.response && <div className={styles.Space}></div>}

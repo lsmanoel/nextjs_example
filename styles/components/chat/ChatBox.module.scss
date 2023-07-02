@@ -27,10 +27,9 @@
     flex-direction: row;
     width: 100%;
     height: 80%;
-    // max-height: 80%;
     div[id="messages"] {
       overflow-y: auto;
-      width: 79%;
+      width: 100%;
       height: 100%;
       color: var(--selected-color);
       border-color: var(--selected-color);
@@ -39,14 +38,9 @@
       border-width: 2px;
       border-radius: 5px;
     }
-    &.noAdm {
-      div[id="messages"] {
-        width: 100%;
-      }
-    }
     div[id="users"] {
       overflow-y: auto;
-      width: 20.5%;
+      width: 40%;
       height: 100%;
       margin-left: 0.5%;
       color: var(--selected-color);
@@ -61,9 +55,7 @@
     display: flex;
     flex-direction: row;
     position: relative;
-    // position: absolute;
     height: 20%;
-    // bottom: 0;
 
     textarea {
       width: 100%;
@@ -141,7 +133,6 @@
   .buttons {
     display: flex;
     flex-direction: column;
-    // justify-content: space-around;
     > input {
       display: flex;
       flex-direction: row;

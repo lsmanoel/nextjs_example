@@ -7,7 +7,7 @@ import TwitterProvider from "next-auth/providers/twitter";
 // import EmailProvider from "next-auth/providers/email"
 // import AppleProvider from "next-auth/providers/apple"
 
-import { saveUser } from "lib/user";
+import { saveUser, getUserId } from "lib/user";
 
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
@@ -105,6 +105,8 @@ export const authOptions: AuthOptions = {
     },
     async session({ session, token, user }) {
       if (token?.provider) session = { provider: token.provider, ...session };
+      const userId = await getUserId(session.user.email);
+      if (userId) session = { chatId: userId, ...session };
       return session;
     },
     async jwt({ token, user, account, profile, isNewUser }) {

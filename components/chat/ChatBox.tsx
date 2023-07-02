@@ -1,4 +1,5 @@
 import React, { ReactElement, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
 import { statusColor } from "lib/statusColor";
 import styles from "styles/components/chat/ChatBox.module.scss";
 import { useSession } from "next-auth/react";
@@ -10,12 +11,21 @@ import {
   updateChatMessageResultMsg,
 } from "lib/requests-results";
 import { db } from "lib/firebase";
-import { collection, query, where, onSnapshot } from "firebase/firestore";
-import { getAuth, signInAnonymously } from "firebase/auth";
+import {
+  collection,
+  getDoc,
+  query,
+  where,
+  onSnapshot,
+  getDocs,
+  orderBy,
+} from "firebase/firestore";
+import { getAuth, signInAnonymously, signOut } from "firebase/auth";
 import UserBox from "./UserBox";
-import { User } from "lib/user";
+import { User, getUserId } from "lib/user";
 
 export default function ChatBox(): ReactElement {
+  const router = useRouter();
   const session = useSession();
   const form = useRef<HTMLFormElement>(null);
   const [status, setStatus] = useState<statusColor>();
@@ -25,7 +35,7 @@ export default function ChatBox(): ReactElement {
   const [messageToUpdate, setMessageToUpdate] = useState<Message | null>(null);
   const [firebaseIsReady, setFirebaseIsReady] = useState(false);
   const [usersIsReady, setUsersIsReady] = useState(false);
-  const [emailKey, setEmailKey] = useState<string>("");
+  const [userId, setUserId] = useState<string>("");
   const [isAdm, setIsAdm] = useState(true);
 
   const clearForm = () => {
@@ -52,17 +62,17 @@ export default function ChatBox(): ReactElement {
   };
 
   const postMessage = async (text: string): Promise<string> => {
-    if (!session) return postChatMessageResultMsg.BAD_CREDENTIALS;
+    if (!session.data?.user?.email)
+      return postChatMessageResultMsg.BAD_CREDENTIALS;
     else if (text === "") return;
     else {
-      const readRoute = "/api/chat/post/message";
-      const response = await fetch(readRoute, {
+      const route = userId ? `/api/chat/post/${userId}` : `/api/chat/post/self`;
+      const response = await fetch(route, {
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           text,
-          emailKey,
         }),
         method: "POST",
       }).catch(() => null);
@@ -79,7 +89,6 @@ export default function ChatBox(): ReactElement {
 
       const sevedMessage: Message = await response.json().catch(() => null);
       if (sevedMessage.text == text) {
-        setMessages([...messages, sevedMessage]);
         return postChatMessageResultMsg.SUCCESS;
       } else {
         return postChatMessageResultMsg.BAD_RESPONSE;
@@ -91,10 +100,13 @@ export default function ChatBox(): ReactElement {
     text: string,
     message: Message
   ): Promise<string> => {
-    if (!session) return updateChatMessageResultMsg.BAD_CREDENTIALS;
+    if (!session.data?.user?.email)
+      return updateChatMessageResultMsg.BAD_CREDENTIALS;
     else {
-      const readRoute = `/api/chat/update/${emailKey}/${message.id}`;
-      const response = await fetch(readRoute, {
+      const route = userId
+        ? `/api/chat/update/${userId}/${message.id}`
+        : `/api/chat/update/${message.id}`;
+      const response = await fetch(route, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -124,10 +136,13 @@ export default function ChatBox(): ReactElement {
   };
 
   const deleteMessage = async (message: Message): Promise<string> => {
-    if (!session) return deleteChatMessageResultMsg.BAD_CREDENTIALS;
+    if (!session.data?.user?.email)
+      return deleteChatMessageResultMsg.BAD_CREDENTIALS;
     else {
-      const readRoute = `/api/chat/delete/${emailKey}/${message.id}`;
-      const response = await fetch(readRoute, {
+      const route = userId
+        ? `/api/chat/delete/${userId}/${message.id}`
+        : `/api/chat/delete/${message.id}`;
+      const response = await fetch(route, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -154,7 +169,11 @@ export default function ChatBox(): ReactElement {
   };
 
   async function messagesSnapshot() {
-    const q = query(collection(db, emailKey), where("deleted", "==", false));
+    const q = query(
+      collection(db, "chat", userId || session.data.chatId, "messages"),
+      orderBy("created", "asc"),
+      where("deleted", "==", false)
+    );
     onSnapshot(q, (querySnapshot) => {
       const messages: Message[] = [];
       querySnapshot.forEach((doc) => {
@@ -172,11 +191,11 @@ export default function ChatBox(): ReactElement {
     });
   }
   useEffect(() => {
-    db && firebaseIsReady && emailKey && messagesSnapshot();
-  }, [db, emailKey, firebaseIsReady]);
+    db && firebaseIsReady && messagesSnapshot();
+  }, [db, userId, firebaseIsReady]);
 
   async function usersSnapshot() {
-    const q = query(collection(db, "users"));
+    const q = query(collection(db, "users"), orderBy("lastPost", "desc"));
     onSnapshot(q, (querySnapshot) => {
       const users: User[] = [];
       querySnapshot.forEach((doc) => {
@@ -200,28 +219,34 @@ export default function ChatBox(): ReactElement {
   async function firebaseSignIn() {
     const auth = getAuth();
     await signInAnonymously(auth)
-      .then(() => {
-        setFirebaseIsReady(true);
+      .then(async () => {
+        if (session.data.chatId) {
+          setFirebaseIsReady(true);
+        } else {
+          signOut(auth);
+          setFirebaseIsReady(false);
+          router.push("/auth");
+        }
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log({ errorCode, errorMessage });
+        setFirebaseIsReady(false);
       });
   }
   useEffect(() => {
-    firebaseSignIn();
-  }, []);
+    if (session.data?.user?.email) firebaseSignIn();
+  }, [session]);
 
   useEffect(() => {
-    if (session.data?.user.email === process.env.EMAIL_ADM) {
-      if (users[0]) setEmailKey(users[0].email);
-      else setEmailKey(session.data?.user.email);
-      setIsAdm(true);
-    } else {
-      setEmailKey(session.data?.user.email);
-      setIsAdm(false);
-    }
+    if (session.data?.user?.email)
+      if (session.data.user.email === process.env.EMAIL_ADM) {
+        if (users[0]) setUserId(users[0].id);
+        setIsAdm(true);
+      } else {
+        setIsAdm(false);
+      }
   }, [session, usersIsReady]);
 
   return (
@@ -229,7 +254,6 @@ export default function ChatBox(): ReactElement {
       ref={form}
       role="form"
       className={`
-      ${!isAdm ? styles.noAdm : ""}
       ${styles.ChatBox}
       ${status === "success" ? styles.success : ""}
       ${status === "warn" ? styles.warn : ""}
@@ -257,9 +281,9 @@ export default function ChatBox(): ReactElement {
               <UserBox
                 key={index}
                 user={user}
-                onClick={() => setEmailKey(user.email)}
-                color={emailKey == user.email && "success"}
-                selected={emailKey == user.email}
+                onClick={() => setUserId(user.id)}
+                color={userId == user.id && "success"}
+                selected={userId == user.id}
               />
             ))}
           </div>
