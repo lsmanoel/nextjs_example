@@ -48,21 +48,30 @@ export default async function handler(
           .doc(session.chatId)
           .update({ lastPost: created });
 
-        const notificationType = chatId === session.chatId ? ">" : "<";
-        const docRef = db
-          .collection("chat")
-          .doc(chatId)
-          .collection("notifications")
-          .doc(notificationType);
+        const notificationType =
+          chatId === session.chatId
+            ? "sentNotifications"
+            : "receivedNotifications";
+        const docRef = db.collection("users").doc(chatId);
         try {
           await db.runTransaction(async (t) => {
             const doc = await t.get(docRef);
-            if (doc.exists) {
-              t.update(docRef, {
-                notifications: doc.data().notifications + 1,
-              });
-            } else {
-              t.set(docRef, { notifications: 1 });
+            if (notificationType == "sentNotifications") {
+              if (doc.data()?.sentNotifications) {
+                t.update(docRef, {
+                  sentNotifications: doc.data().sentNotifications + 1,
+                });
+              } else {
+                t.set(docRef, { ...doc.data(), sentNotifications: 1 });
+              }
+            } else if (notificationType == "receivedNotifications") {
+              if (doc.data()?.receivedNotifications) {
+                t.update(docRef, {
+                  receivedNotifications: doc.data().receivedNotifications + 1,
+                });
+              } else {
+                t.set(docRef, { ...doc.data(), receivedNotifications: 1 });
+              }
             }
           });
         } catch (error) {
