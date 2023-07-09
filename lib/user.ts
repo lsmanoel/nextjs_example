@@ -7,6 +7,7 @@ export interface User {
   name: string;
   email: string;
   image?: string;
+  notifications?: string;
 }
 
 export const saveUser = async (user: User) => {

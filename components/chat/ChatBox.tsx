@@ -22,10 +22,16 @@ import {
 } from "firebase/firestore";
 import UserBox from "./UserBox";
 import { User } from "lib/user";
+import { RootState } from "redux/chat/store";
+import { useAppSelector } from "redux/hooks";
 
 export default function ChatBox(): ReactElement {
   const router = useRouter();
   const session = useSession();
+  const notifications = useAppSelector(
+    (state: RootState) => state.notifications
+  );
+
   const form = useRef<HTMLFormElement>(null);
   const [status, setStatus] = useState<statusColor>();
   const [text, setText] = useState<string>("");
@@ -166,8 +172,42 @@ export default function ChatBox(): ReactElement {
     }
   };
 
+  const clearNotifications = async (): Promise<string> => {
+    if (!session.data?.user?.email)
+      return deleteChatMessageResultMsg.BAD_CREDENTIALS;
+    else {
+      const route = userId
+        ? `/api/chat/clear-notifications/${userId}`
+        : `/api/chat/clear-notifications/self`;
+      const response = await fetch(route, {
+        method: "PUT",
+      }).catch(() => null);
+
+      if (!response) {
+        return deleteChatMessageResultMsg.FETCH_ERROR;
+      } else if (response.status === 401) {
+        return deleteChatMessageResultMsg.BAD_CREDENTIALS;
+      } else if (response.status === 400) {
+        return deleteChatMessageResultMsg.BAD_REQUEST;
+      } else if (response.status !== 200) {
+        return deleteChatMessageResultMsg.UNKNOW_ERROR;
+      }
+
+      const deleted: boolean = await response.json().catch(() => null);
+      if (deleted) {
+        return deleteChatMessageResultMsg.SUCCESS;
+      } else {
+        return deleteChatMessageResultMsg.BAD_RESPONSE;
+      }
+    }
+  };
+  useEffect(() => {
+    clearNotifications();
+  }, [notifications, userId, messages]);
+
   async function messagesSnapshot() {
     if (session.data?.chatId) {
+      clearNotifications();
       const q = query(
         collection(db, "chat", userId || session.data.chatId, "messages"),
         orderBy("created", "asc"),
@@ -205,6 +245,7 @@ export default function ChatBox(): ReactElement {
           name: doc.data().name,
           email: doc.data().email,
           image: doc.data().image,
+          notifications: doc.data().sentNotifications,
         };
         users.push(user);
       });

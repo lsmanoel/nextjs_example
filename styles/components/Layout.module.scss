@@ -34,6 +34,8 @@
   flex-direction: column;
   z-index: 1;
   .navItem {
+    display: flex;
+    position: relative;
     transition: color 0.5s ease;
     align-items: center;
     cursor: pointer;
@@ -46,7 +48,7 @@
     svg {
       width: 0.8em;
     }
-    span {
+    > span {
       display: inline-flex;
       flex: 1 0 0;
       overflow: hidden;
@@ -55,10 +57,25 @@
       transition: 200ms ease;
       transition-property: opacity, width, padding;
     }
-    span[id="badge"] {
+    div[id="badge"] {
+      display: flex;
       position: absolute;
-      top: 0;
-      left: 8px;
+      top: 5px;
+      left: 4px;
+      justify-content: center;
+      align-items: center;
+      height: 6px;
+      width: 6px;
+      padding: 5px;
+      border-radius: 100%;
+      background-color: var(--error-color);
+      box-shadow: 0 0 10px var(--error-color);
+      z-index: 1000;
+      span {
+        color: var(--white-color);
+        text-shadow: 0 0 20px var(--white-color);
+        font-size: x-small;
+      }
     }
     &:hover {
       svg {
@@ -120,31 +137,31 @@
         margin-right: -0.6em;
       }
     }
-    &.oneDigits {
-      svg {
-        margin-right: 10px;
-      }
-    }
-    &.twoDigits {
-      svg {
-        margin-right: 20px;
-      }
-    }
-    &.threeDigits {
-      svg {
-        margin-right: 30px;
-      }
-    }
-    &.fourDigits {
-      svg {
-        margin-right: 40px;
-      }
-    }
-    &.fiveDigits {
-      svg {
-        margin-right: 50px;
-      }
-    }
+    // &.oneDigits {
+    //   svg {
+    //     margin-right: 10px;
+    //   }
+    // }
+    // &.twoDigits {
+    //   svg {
+    //     margin-right: 20px;
+    //   }
+    // }
+    // &.threeDigits {
+    //   svg {
+    //     margin-right: 30px;
+    //   }
+    // }
+    // &.fourDigits {
+    //   svg {
+    //     margin-right: 40px;
+    //   }
+    // }
+    // &.fiveDigits {
+    //   svg {
+    //     margin-right: 50px;
+    //   }
+    // }
     &.selected {
       color: var(--selected-color);
       text-shadow: 0 0 2px var(--selected-color);

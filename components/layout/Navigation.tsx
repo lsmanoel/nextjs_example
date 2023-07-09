@@ -13,6 +13,8 @@ import {
   faComments,
 } from "@fortawesome/free-solid-svg-icons";
 import { useSession } from "next-auth/react";
+import { useSelector, useDispatch } from "react-redux";
+import type { RootState } from "redux/chat/store";
 
 import styles from "../../styles/components/Layout.module.scss";
 
@@ -37,7 +39,10 @@ interface Props {
 export default function Navigation({ hidden }: Props): ReactElement {
   const router = useRouter();
   const { data: session } = useSession();
-  const [notifications, setNotifications] = useState<number>(1);
+  const notifications = useSelector((state: RootState) => state.notifications);
+  const [navNotificationDigits, setNavNotificationDigits] =
+    useState<string>("");
+
   const innerWidthThreshold = 800;
   const [innerWidth, getInnerWidth] = useState(innerWidthThreshold + 1);
   const setInnerWidth = () => {
@@ -54,6 +59,26 @@ export default function Navigation({ hidden }: Props): ReactElement {
     };
   }, [innerWidth, setInnerWidth]);
 
+  useEffect(() => {
+    notifications.amount === 0 && setNavNotificationDigits("");
+
+    notifications.amount.toString().length === 1 &&
+      notifications.amount > 0 &&
+      setNavNotificationDigits(styles.oneDigits);
+
+    notifications.amount.toString().length === 2 &&
+      setNavNotificationDigits(styles.twoDigits);
+
+    notifications.amount.toString().length === 3 &&
+      setNavNotificationDigits(styles.threeDigits);
+
+    notifications.amount.toString().length === 4 &&
+      setNavNotificationDigits(styles.fourDigits);
+
+    notifications.amount.toString().length === 5 &&
+      setNavNotificationDigits(styles.fiveDigits);
+  }, [notifications]);
+
   return (
     <nav
       className={`${styles.nav} ${
@@ -66,7 +91,8 @@ export default function Navigation({ hidden }: Props): ReactElement {
             <a
               className={`${styles.navItem} 
               ${
-                notifications.toString().length === 1 && notifications > 0
+                notifications.toString().length === 1 &&
+                notifications.amount > 0
                   ? styles.oneDigits
                   : ""
               }
@@ -85,7 +111,13 @@ export default function Navigation({ hidden }: Props): ReactElement {
               <FontAwesomeIcon
                 icon={session ? icon : securityIcon || icon}
               ></FontAwesomeIcon>
-              {notifications > 0 && <span id="badge">{notifications}</span>}
+              {router.pathname != "/chat" &&
+                href == "/chat" &&
+                notifications.amount > 0 && (
+                  <div id="badge">
+                    <span>{notifications.amount}</span>
+                  </div>
+                )}
               <span id="value">{value}</span>
             </a>
           </Link>

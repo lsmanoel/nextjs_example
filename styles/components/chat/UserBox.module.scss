@@ -42,11 +42,31 @@
 
       div[id="avatar"] {
         display: flex;
+        position: relative;
         justify-content: center;
         margin: 3px 0 3px 0;
         width: 40px;
         img {
           border-radius: 10%;
+        }
+        div[id="badge"] {
+          display: flex;
+          position: absolute;
+          top: 0;
+          right: 0;
+          justify-content: center;
+          align-items: center;
+          height: 9px;
+          width: 9px;
+          padding: 5px;
+          border-radius: 100%;
+          background-color: var(--error-color);
+          box-shadow: 0 0 10px var(--error-color);
+          z-index: 1000;
+          span {
+            color: var(--white-color);
+            text-shadow: 0 0 10px var(--white-color);
+          }
         }
       }
       svg {
