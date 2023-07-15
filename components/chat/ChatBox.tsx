@@ -40,7 +40,11 @@ export default function ChatBox(): ReactElement {
   const [messageToUpdate, setMessageToUpdate] = useState<Message | null>(null);
   const [usersIsReady, setUsersIsReady] = useState(false);
   const [userId, setUserId] = useState<string>("");
+  const [scrollToBottonEnable, setScrollToBottonEnable] =
+    useState<boolean>(true);
   const [isAdm, setIsAdm] = useState(true);
+
+  const messagesObjDiv = document.getElementById("messages") as HTMLDivElement;
 
   const clearForm = () => {
     setText("");
@@ -257,18 +261,24 @@ export default function ChatBox(): ReactElement {
     isAdm && db && usersSnapshot();
   }, [db, isAdm]);
 
-  type ScrollToBottomModes = "OnlyInBottom";
-  const scrollToBottom = (divId: string, mode: ScrollToBottomModes) => {
-    const objDiv = document.getElementById(divId) as HTMLDivElement;
-    if (mode === "OnlyInBottom" && objDiv.scrollTop + objDiv.scrollHeight)
-      return;
-
-    objDiv.scrollIntoView(true);
-    objDiv.scrollTop = objDiv.scrollHeight;
+  const scrollMessagesToBottom = (enable: boolean) => {
+    if (enable && messagesObjDiv) {
+      messagesObjDiv.scrollIntoView(true);
+      messagesObjDiv.scrollTop = messagesObjDiv.scrollHeight;
+    }
+    return;
   };
   useEffect(() => {
-    scrollToBottom("messages", "OnlyInBottom");
+    scrollMessagesToBottom(scrollToBottonEnable);
   }, [messages]);
+
+  const handleMessagesScroll = () => {
+    setScrollToBottonEnable(
+      messagesObjDiv?.scrollTop &&
+        messagesObjDiv.scrollHeight - messagesObjDiv.scrollTop ===
+          messagesObjDiv.clientHeight
+    );
+  };
 
   useEffect(() => {
     if (session.data?.user?.email)
@@ -293,7 +303,7 @@ export default function ChatBox(): ReactElement {
       onSubmit={submit}
     >
       <div id="displayPanel">
-        <div id="messages">
+        <div id="messages" onScroll={() => handleMessagesScroll()}>
           {messages.map((message: Message, index) => (
             <MessageBox
               key={index}
