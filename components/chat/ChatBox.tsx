@@ -257,6 +257,19 @@ export default function ChatBox(): ReactElement {
     isAdm && db && usersSnapshot();
   }, [db, isAdm]);
 
+  type ScrollToBottomModes = "OnlyInBottom";
+  const scrollToBottom = (divId: string, mode: ScrollToBottomModes) => {
+    const objDiv = document.getElementById(divId) as HTMLDivElement;
+    if (mode === "OnlyInBottom" && objDiv.scrollTop + objDiv.scrollHeight)
+      return;
+
+    objDiv.scrollIntoView(true);
+    objDiv.scrollTop = objDiv.scrollHeight;
+  };
+  useEffect(() => {
+    scrollToBottom("messages", "OnlyInBottom");
+  }, [messages]);
+
   useEffect(() => {
     if (session.data?.user?.email)
       if (session.data.user.email === process.env.EMAIL_ADM) {
@@ -311,8 +324,10 @@ export default function ChatBox(): ReactElement {
         <textarea
           placeholder={"Ensira sua mensagem..."}
           name={"message"}
+          id="taYourText"
           value={text}
           rows={40}
+          cols={40}
           onInput={(e) => {
             setText((e.target as HTMLInputElement).value);
           }}

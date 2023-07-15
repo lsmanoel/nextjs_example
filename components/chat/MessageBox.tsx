@@ -15,6 +15,29 @@ interface MessageBoxProps {
   onDelete: () => void;
 }
 
+const textWithBreakLineAndSpace = (text: string): JSX.Element[] => {
+  return text.split("\n").map((line) => {
+    return (
+      <>
+        {textWithSpace(line)}
+        <br />
+      </>
+    );
+  });
+  // return textOutput.reduce((accumulator, line)=>accumulator+line) as JSX.Element;
+};
+
+const textWithSpace = (text: string): JSX.Element[] => {
+  return text.split(" ").map((word) => {
+    return (
+      <>
+        {word}
+        &nbsp;
+      </>
+    );
+  });
+};
+
 export default function MessageBox(props: MessageBoxProps): ReactElement {
   const created = new Date((props.message.created as Timestamp).toDate());
   return (
@@ -48,7 +71,9 @@ export default function MessageBox(props: MessageBoxProps): ReactElement {
           </div>
         </div>
         <div>
-          <h2>{props.message.text}</h2>
+          <p id="messageBoxText">
+            {textWithBreakLineAndSpace(props.message.text)}
+          </p>
         </div>
       </div>
     </div>

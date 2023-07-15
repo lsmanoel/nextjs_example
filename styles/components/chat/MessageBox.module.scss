@@ -15,7 +15,6 @@
   justify-content: space-between;
   background-color: var(--primary-dark-1-color);
   padding: 2%;
-  margin: 1% 0.5% 0 0.5%;
   width: 75%;
   border-style: solid;
   border-width: 2px;
@@ -28,6 +27,11 @@
   h1,
   h2 {
     margin: 0 5px 10px 0;
+  }
+  p[id="messageBoxText"] {
+    white-space: pre-line;
+    word-spacing: 8.3px;
+    font-family: monospace;
   }
   button {
     background: none;
