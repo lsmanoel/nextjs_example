@@ -40,7 +40,7 @@ export default function ChatBox(): ReactElement {
   const [messageToUpdate, setMessageToUpdate] = useState<Message | null>(null);
   const [usersIsReady, setUsersIsReady] = useState(false);
   const [userId, setUserId] = useState<string>("");
-  const [scrollToBottonEnable, setScrollToBottonEnable] =
+  const [scrollToBottomEnable, setScrollToBottomEnable] =
     useState<boolean>(true);
   const [isAdm, setIsAdm] = useState(true);
 
@@ -269,14 +269,14 @@ export default function ChatBox(): ReactElement {
     return;
   };
   useEffect(() => {
-    scrollMessagesToBottom(scrollToBottonEnable);
+    scrollMessagesToBottom(scrollToBottomEnable);
   }, [messages]);
 
   const handleMessagesScroll = () => {
-    setScrollToBottonEnable(
+    setScrollToBottomEnable(
       messagesObjDiv?.scrollTop &&
-        messagesObjDiv.scrollHeight - messagesObjDiv.scrollTop ===
-          messagesObjDiv.clientHeight
+        messagesObjDiv.scrollHeight - messagesObjDiv.scrollTop <=
+          messagesObjDiv.clientHeight + 10
     );
   };
 
@@ -299,6 +299,7 @@ export default function ChatBox(): ReactElement {
       ${status === "success" ? styles.success : ""}
       ${status === "warn" ? styles.warn : ""}
       ${status === "error" ? styles.error : ""}
+      ${!scrollToBottomEnable ? styles.scrollMessagesToBottomDisable : ""}
       `}
       onSubmit={submit}
     >
