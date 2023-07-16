@@ -24,6 +24,8 @@ import UserBox from "./UserBox";
 import { User } from "lib/user";
 import { RootState } from "redux/chat/store";
 import { useAppSelector } from "redux/hooks";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
 export default function ChatBox(): ReactElement {
   const router = useRouter();
@@ -206,12 +208,12 @@ export default function ChatBox(): ReactElement {
     }
   };
   useEffect(() => {
-    clearNotifications();
-  }, [notifications, userId, messages]);
+    scrollToBottomEnable && clearNotifications();
+  }, [notifications, userId, messages, scrollToBottomEnable]);
 
   async function messagesSnapshot() {
     if (session.data?.chatId) {
-      clearNotifications();
+      // clearNotifications();
       const q = query(
         collection(db, "chat", userId || session.data.chatId, "messages"),
         orderBy("created", "asc"),
@@ -305,6 +307,20 @@ export default function ChatBox(): ReactElement {
     >
       <div id="displayPanel">
         <div id="messages" onScroll={() => handleMessagesScroll()}>
+          {!scrollToBottomEnable && (
+            <>
+              {notifications.amount > 0 && (
+                <span id="notifications">{notifications.amount}</span>
+              )}
+              <button
+                id="scrollToBottomButton"
+                type={"button"}
+                onClick={() => scrollMessagesToBottom(true)}
+              >
+                <FontAwesomeIcon icon={faChevronDown}></FontAwesomeIcon>
+              </button>
+            </>
+          )}
           {messages.map((message: Message, index) => (
             <MessageBox
               key={index}

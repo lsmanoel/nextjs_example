@@ -38,7 +38,7 @@ export default function UserBox(props: UserBoxProps): ReactElement {
               width={100}
               height={100}
             />
-            {!props.selected && props.user.notifications && (
+            {props.user.notifications && (
               <div id="badge">
                 <span>{props.user.notifications}</span>
               </div>
