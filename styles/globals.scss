@@ -121,3 +121,7 @@ input:focus {
   box-shadow: 0 0 6px var(--selected-color);
   -webkit-box-shadow: 0 0 6px var(--selected-color);
 }
+
+div {
+  scrollbar-color: var(--selected-color) var(--background-primary-color);
+}
